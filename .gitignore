@@ -1,0 +1,16 @@
+# .gitignore
+# Docker
+/mysql_data
+
+# Laravel
+src/.env
+src/vendor/
+src/storage/*
+!src/storage/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+
+# Sistema
+.DS_Store
