@@ -14,10 +14,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
-        User::factory()->create([
+        $this->call([
+           UsuarioSeeder::class,
+           PensumSeeder::class,
+           FormaPagoSeeder::class,
+           CuentaBancariaSeeder::class,
+           CuotaSeeder::class,
+           BecaSeeder::class,
+           DescuentoSeeder::class,
+           CostoSeeder::class,
+           InscripcionSeeder::class,
+           // ...agrega aquí otros seeders si los creas después
+       ]);
+        /*User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-        ]);
+        ]);*/
     }
 }
