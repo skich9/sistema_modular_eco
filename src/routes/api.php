@@ -3,11 +3,14 @@
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PensumController;
+use App\Http\Controllers\InscripcionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('usuarios', UsuarioController::class);
-Route::apiResource('pensums', PensumController::class); 
+Route::apiResource('pensums', PensumController::class);
+Route::apiResource('inscripciones', InscripcionController::class); 
+
 
 Route::get('/productos',[ProductosController::class,'index']);
 Route::get('/productos/{id}',[ProductosController::class,'show']);
