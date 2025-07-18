@@ -8,6 +8,7 @@ use App\Http\Controllers\FormaPagoController;
 use App\Http\Controllers\CuentaBancariaController;
 use App\Http\Controllers\CuotaController;
 use App\Http\Controllers\BecaController;
+use App\Http\Controllers\DescuentoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,8 @@ Route::apiResource('inscripciones', InscripcionController::class);
 Route::apiResource('formas_pago', FormaPagoController::class);
 Route::apiResource('cuentas_bancarias', CuentaBancariaController::class);
 Route::apiResource('cuotas', CuotaController::class);
-Route::apiResource('becas', BecaController::class); 
+Route::apiResource('becas', BecaController::class);
+Route::apiResource('descuentos', DescuentoController::class); 
 
 
 Route::get('/productos',[ProductosController::class,'index']);
