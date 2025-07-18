@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+Route::apiResource('usuarios', UsuarioController::class);
 
 Route::get('/productos',[ProductosController::class,'index']);
 Route::get('/productos/{id}',[ProductosController::class,'show']);

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UsuarioController extends Controller
 {
@@ -11,7 +13,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Usuario::all());
     }
 
     /**
@@ -27,15 +29,26 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email|unique:usuarios,email',
+            'ci' => 'nullable|string|unique:usuarios,ci',
+            'estado' => 'nullable|string',
+        ]);
+        $usuario = Usuario::create($validated);
+        return response()->json($usuario, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $usuario = Usuario::find($id);
+        if (!$usuario) {
+            return response()->json(['message' => 'Usuario no encontrado'], 404);
+        }
+        return response()->json($usuario);
     }
 
     /**
@@ -51,7 +64,18 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $usuario = Usuario::find($id);
+        if (!$usuario) {
+            return response()->json(['message' => 'Usuario no encontrado'], 404);
+        }
+        $validated = $request->validate([
+            'nombre' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|unique:usuarios,email,' . $id,
+            'ci' => 'nullable|string|unique:usuarios,ci,' . $id,
+            'estado' => 'nullable|string',
+        ]);
+        $usuario->update($validated);
+        return response()->json($usuario);
     }
 
     /**
@@ -59,6 +83,11 @@ class UsuarioController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $usuario = Usuario::find($id);
+        if (!$usuario) {
+            return response()->json(['message' => 'Usuario no encontrado'], 404);
+        }
+        $usuario->delete();
+        return response()->json(['message' => 'Usuario eliminado correctamente']);
     }
 }
