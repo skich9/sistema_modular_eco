@@ -11,6 +11,7 @@ use App\Http\Controllers\BecaController;
 use App\Http\Controllers\DescuentoController;
 use App\Http\Controllers\CostoController;
 use App\Http\Controllers\CompromisoController;
+use App\Http\Controllers\ProrrogaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,8 @@ Route::apiResource('cuotas', CuotaController::class);
 Route::apiResource('becas', BecaController::class);
 Route::apiResource('descuentos', DescuentoController::class);
 Route::apiResource('costos', CostoController::class);
-Route::apiResource('compromisos', CompromisoController::class);  
+Route::apiResource('compromisos', CompromisoController::class);
+Route::apiResource('prorrogas', ProrrogaController::class);
 
 
 Route::get('/productos',[ProductosController::class,'index']);
