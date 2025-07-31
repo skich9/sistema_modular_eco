@@ -8,27 +8,23 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('formas_pago', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('nombre');
+        Schema::create('funciones', function (Blueprint $table) {
+            $table->id('id_funcion');
+            $table->string('nombre', 50);
             $table->text('descripcion')->nullable();
-            $table->string('estado')->nullable();
+            $table->boolean('estado')->nullable()->default(true);
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('formas_pago');
+        Schema::dropIfExists('funciones');
     }
 };

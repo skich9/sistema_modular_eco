@@ -3,55 +3,49 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
-class Usuario extends Authenticatable
+class Usuario extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'usuarios';
+    protected $primaryKey = 'id_usuario';
 
     protected $fillable = [
+        'nickname',
         'nombre',
-        'email',
+        'ap_paterno',
+        'ap_materno',
+        'contrasenia',
         'ci',
         'estado',
+        'id_rol'
     ];
 
-    // Relaciones
-    public function inscripciones(): HasMany
+    protected $hidden = [
+        'contrasenia',
+    ];
+
+    // Mutator para hashear la contraseña automáticamente
+    public function setContraseniaAttribute($value)
     {
-        return $this->hasMany(Inscripcion::class);
+        $this->attributes['contrasenia'] = Hash::make($value);
     }
 
-    public function pagos(): HasMany
+    // Relación con Rol
+    public function rol()
     {
-        return $this->hasMany(Pago::class);
+        return $this->belongsTo(Rol::class, 'id_rol', 'id_rol');
     }
 
-    public function matriculas(): HasMany
+    // Relación con Funciones (a través de asignacion_funcion)
+    public function funciones()
     {
-        return $this->hasMany(Matricula::class);
+        return $this->belongsToMany(Funcion::class, 'asignacion_funcion', 'id_usuario', 'id_funcion')
+                    ->withPivot('fecha_ini', 'fecha_fin', 'usuario_asig')
+                    ->withTimestamps();
     }
-
-    public function ingresos(): HasMany
-    {
-        return $this->hasMany(Ingreso::class);
-    }
-
-    public function egresos(): HasMany
-    {
-        return $this->hasMany(Egreso::class);
-    }
-
-    public function compromisos(): HasMany
-    {
-        return $this->hasMany(Compromiso::class);
-    }
-
-    public function prorrogas(): HasMany
-    {
-        return $this->hasMany(Prorroga::class);
-    }
-} 
+}

@@ -2,20 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\Rol;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class RolSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run()
     {
-        $this->call([
-            RolSeeder::class,
-            FuncionSeeder::class,
-            UsuarioSeeder::class,
-        ]);
+        Rol::factory()->count(3)->create(); // Crea 3 roles
     }
 }
