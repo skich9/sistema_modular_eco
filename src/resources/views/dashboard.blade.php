@@ -49,6 +49,39 @@
 		</div>
 	</nav>
 
+	<!-- Menu de Navegación -->
+	<nav class="bg-blue-600 shadow-sm">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="flex space-x-8">
+				<!-- Menu Configuración -->
+				<div class="relative">
+					<button 
+						type="button" 
+						class="text-white hover:bg-blue-700 px-3 py-4 text-sm font-medium flex items-center transition-colors duration-200"
+						onclick="toggleConfigMenu()"
+					>
+						<i class="fas fa-cog mr-2"></i>
+						Configuración
+						<i class="fas fa-chevron-down ml-2 text-xs"></i>
+					</button>
+					
+					<!-- Dropdown Configuración -->
+					<div id="configDropdown" class="hidden absolute left-0 mt-0 w-56 bg-white rounded-md shadow-lg py-1 z-50">
+						<a href="{{ route('usuarios.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+							<i class="fas fa-users mr-2"></i>Registro de Usuarios
+						</a>
+						<a href="{{ route('roles.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+							<i class="fas fa-user-tag mr-2"></i>Gestión de Roles
+						</a>
+						<a href="{{ route('funciones.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+							<i class="fas fa-tasks mr-2"></i>Gestión de Funciones
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+
 	<!-- Main Content -->
 	<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
 		<!-- Welcome Message -->
@@ -223,13 +256,20 @@
 		dropdown.classList.toggle('hidden');
 	}
 
-	// Close dropdown when clicking outside
+	function toggleConfigMenu() {
+		const dropdown = document.getElementById('configDropdown');
+		dropdown.classList.toggle('hidden');
+	}
+
+	// Close dropdowns when clicking outside
 	document.addEventListener('click', function(event) {
-		const dropdown = document.getElementById('userDropdown');
+		const userDropdown = document.getElementById('userDropdown');
+		const configDropdown = document.getElementById('configDropdown');
 		const button = event.target.closest('button');
 		
-		if (!button || !button.onclick) {
-			dropdown.classList.add('hidden');
+		if (!button || (!button.onclick && !button.getAttribute('onclick'))) {
+			userDropdown.classList.add('hidden');
+			configDropdown.classList.add('hidden');
 		}
 	});
 </script>
