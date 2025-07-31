@@ -152,7 +152,7 @@
 						<tr>
 							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 								<button class="flex items-center hover:text-gray-700">
-									Nickname
+									Usuario
 									<i class="fas fa-sort ml-1"></i>
 								</button>
 							</th>
@@ -261,7 +261,7 @@
 				
 				<div class="space-y-4">
 					<div>
-						<label class="block text-sm font-medium text-gray-700 mb-1">Nickname</label>
+						<label class="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
 						<input type="text" name="nickname" id="nickname" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
 					</div>
 					
