@@ -152,7 +152,7 @@
 						<tr>
 							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 								<button class="flex items-center hover:text-gray-700">
-									Id Usuario
+									Nickname
 									<i class="fas fa-sort ml-1"></i>
 								</button>
 							</th>
@@ -164,6 +164,12 @@
 							</th>
 							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 								<button class="flex items-center hover:text-gray-700">
+									Rol
+									<i class="fas fa-sort ml-1"></i>
+								</button>
+							</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+								<button class="flex items-center hover:text-gray-700">
 									Cargo
 									<i class="fas fa-sort ml-1"></i>
 								</button>
@@ -171,12 +177,6 @@
 							<th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
 								<button class="flex items-center hover:text-gray-700">
 									Activo
-									<i class="fas fa-sort ml-1"></i>
-								</button>
-							</th>
-							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								<button class="flex items-center hover:text-gray-700">
-									Rol
 									<i class="fas fa-sort ml-1"></i>
 								</button>
 							</th>
@@ -197,6 +197,9 @@
 									</div>
 								</td>
 								<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+									{{ $usuario->rol->nombre ?? 'Sin rol' }}
+								</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
 									{{ $usuario->rol->descripcion ?? 'Sin descripción' }}
 								</td>
 								<td class="px-6 py-4 whitespace-nowrap text-center">
@@ -206,9 +209,6 @@
 										onchange="toggleUserStatus({{ $usuario->id_usuario }}, this.checked)"
 										class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
 									>
-								</td>
-								<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-									{{ $usuario->rol->nombre ?? 'Sin rol' }}
 								</td>
 								<td class="px-6 py-4 whitespace-nowrap text-center">
 									<button 
