@@ -44,9 +44,16 @@
 	
 	@stack('styles')
 </head>
-<body class="min-h-screen bg-gradient-ceta">
-	@yield('content')
+<body class="min-h-screen bg-gray-50">
+	<!-- Menú de navegación -->
+	@if(session()->has('usuario'))
+		<x-navigation-menu :usuario="$usuario" />
+	@endif
 	
+	<!-- Contenido principal -->
+    <main class="{{ session()->has('usuario') ? 'pt-0' : '' }}">
+        @yield('content')
+    </main>
 	<!-- Scripts -->
 	<script>
 		// Toggle password visibility
