@@ -24,6 +24,31 @@ class NavigationMenu extends Component
         
         // Definir todas las opciones del menú con sus roles permitidos
         $allItems = [
+            /*[
+                'name' => 'Cobros/Compras',
+                'icon' => 'fas fa-cog',
+                'submenu' => [
+                    [
+                        'name' => 'Registro de Cobros',
+                        'route' => 'usuarios.index',
+                        'icon' => 'fa-users',
+                        'roles' => ['Administrador'],
+                    ],
+                    [
+                        'name' => 'Registro de Otros Ingresos (Cobros)',
+                        'route' => 'roles.index',
+                        'icon' => 'fa-user-tag',
+                        'roles' => ['Administrador'],
+                    ],
+                    [
+                        'name' => 'Registro de Egresos (Compras)',
+                        'route' => 'funciones.index',
+                        'icon' => 'fa-tasks',
+                        'roles' => ['Administrador', 'Secretaria'],
+                    ],
+                ],
+                'roles' => ['Administrador', 'Secretaria'],
+            ],*/
             [
                 'name' => 'Configuración',
                 'icon' => 'fas fa-cog',
@@ -43,6 +68,12 @@ class NavigationMenu extends Component
                     [
                         'name' => 'Gestión de Funciones',
                         'route' => 'funciones.index',
+                        'icon' => 'fa-tasks',
+                        'roles' => ['Administrador', 'Secretaria'],
+                    ],
+                    [
+                        'name' => 'Parametros economicos',
+                        'route' => 'economico.index',
                         'icon' => 'fa-tasks',
                         'roles' => ['Administrador', 'Secretaria'],
                     ],

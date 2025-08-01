@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsuarioWebController;
 use App\Http\Controllers\RolWebController;
 use App\Http\Controllers\FuncionWebController;
-
+use App\Http\Controllers\EconomicoWebController;
 // ========== RUTAS DE AUTENTICACIÓN ==========
 
 // Ruta de bienvenida
@@ -38,6 +38,9 @@ Route::middleware('auth.custom')->group(function () {
     // Rutas para gestión de funciones
     Route::resource('funciones', FuncionWebController::class)->except(['create', 'edit']);
     Route::post('/funciones/{id}/toggle-status', [FuncionWebController::class, 'toggleStatus'])->name('funciones.toggle-status');
+    // Rutas para parametros economicos
+    Route::resource('economicos', EconomicoWebController::class)->except(['create', 'edit']);
+    Route::post('/economicos/{id}/toggle-status', [EconomicoWebController::class, 'toggleStatus'])->name('economicos.toggle-status');
 });
 
 

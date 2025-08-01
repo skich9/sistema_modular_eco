@@ -15,7 +15,7 @@
 	<!-- Custom Styles -->
 	<style>
 		.bg-gradient-ceta {
-			background: linear-gradient(135deg, #1e40af 0%, #3730a3 50%, #1e3a8a 100%);
+			background:  linear-gradient(135deg, #134908 0%, #243ba9 50%, #243ba9 100%);
 		}
 		
 		.text-shadow {
@@ -32,12 +32,12 @@
 		}
 		
 		.btn-primary {
-			background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+			background: linear-gradient(135deg, #134908 0%, #243ba9 100%);
 			transition: all 0.3s ease;
 		}
 		
 		.btn-primary:hover {
-			background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+			background: linear-gradient(135deg, #134908 0%, #243ba9 100%);
 			transform: translateY(-1px);
 		}
 	</style>

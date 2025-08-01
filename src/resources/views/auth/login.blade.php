@@ -9,7 +9,7 @@
 		<div class="bg-white rounded-2xl shadow-2xl p-8 space-y-8">
 			<!-- Header -->
 			<div class="text-center">
-				<div class="mx-auto h-24 w-24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+				<div class="mx-auto h-24 w-24 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-lg">
 					<img src="{{ asset('images/logo-ceta.png') }}" alt="Logo CETA" class="h-16 w-16 object-contain">
 				</div>
 				

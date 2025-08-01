@@ -8,7 +8,7 @@
 					<span class="text-xl font-bold text-gray-900">Sistema de Cobros CETA</span>
 				</a>
 			</div>
-			
+
 			<div class="flex items-center space-x-4">
 				<div class="text-sm text-gray-700">
 					<span class="font-medium">{{ $usuario['nombre_completo'] }}</span>
