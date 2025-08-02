@@ -42,7 +42,7 @@ CREATE TABLE `costo_detalle` (
 
 CREATE TABLE `costos` (
   `cod_costo` bigint NOT NULL AUTO_INCREMENT,
-  `cod_pensum` text NOT NULL AUTO_INCREMENT,
+  `cod_pensum` varchar(50) NOT NULL,
   `id_descuento` int DEFAULT null,
   `nombre` text NOT NULL,
   `monto` decimal(10,2) NOT NULL,
@@ -280,9 +280,9 @@ CREATE TABLE `otros_ingresos` (
 
 CREATE TABLE `inscripciones` (
   `cod_inscrip` bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_usuario` bigint NOT NULL,
+  `id_usuario` int NOT NULL,
   `cod_ceta` bigint NOT NULL,
-  `cod_pensum` bigint NOT NULL,
+  `cod_pensum` varchar(50) NOT NULL,
   `nro_materia` tinyint NOT NULL,
   `nro_materia_aprob` int NOT NULL,
   `gestion` varchar(20) NOT NULL,
@@ -413,7 +413,7 @@ CREATE TABLE `password_reset_tokens` (
 );
 
 CREATE TABLE `pensums` (
-  `cod_pensum` text PRIMARY KEY NOT NULL,
+  `cod_pensum` varchar(50) PRIMARY KEY NOT NULL,
   `codigo_carrera` varchar(50) NOT NULL,
   `nombre` varchar(40) NOT NULL,
   `descripcion` text DEFAULT null,
@@ -517,7 +517,7 @@ CREATE TABLE `usuarios` (
   `contrasenia` varchar(30) NOT NULL,
   `ci` varchar(25) NOT NULL,
   `estado` bool DEFAULT null,
-  `id_usuario_rol` varchar(40) NOT NULL,
+  `id_rol` varchar(40) NOT NULL,
   `created_at` timestamp DEFAULT null,
   `updated_at` timestamp DEFAULT null
 );
@@ -578,7 +578,7 @@ CREATE TABLE `items_cobro` (
 
 CREATE TABLE `materia` (
   `sigla_materia` varchar(255) NOT NULL,
-  `cod_pensum` text NOT NULL,
+  `cod_pensum` varchar(50) NOT NULL,
   `nombre_materia` varchar(50) NOT NULL,
   `nombre_material_oficial` varchar(50) NOT NULL,
   `estado` bool NOT NULL,
@@ -593,13 +593,13 @@ CREATE TABLE `materia` (
 
 CREATE TABLE `kardex_notas` (
   `cod_ceta` int NOT NULL AUTO_INCREMENT,
-  `cod_pensum` text NOT NULL,
+  `cod_pensum` varchar(50) NOT NULL,
   `cod_inscrip` int NOT NULL,
-  `tipo_incripcion` text NOT NULL,
+  `tipo_incripcion` varchar(50) NOT NULL,
   `cod_kardex` int NOT NULL,
   `sigla_materia` varchar(30) NOT NULL,
   `observacion` varchar(50) NOT NULL,
-  `id_usuario` text NOT NULL,
+  `id_usuario` int NOT NULL,
   `created_at` timestamp DEFAULT null,
   `updated_at` timestamp DEFAULT null,
   PRIMARY KEY (`cod_ceta`, `cod_pensum`, `cod_inscrip`, `tipo_incripcion`, `cod_kardex`)
@@ -607,7 +607,7 @@ CREATE TABLE `kardex_notas` (
 
 CREATE TABLE `costo_semestral` (
   `id_costo_semestral` bigint NOT NULL AUTO_INCREMENT,
-  `cod_pensum` text NOT NULL,
+  `cod_pensum` varchar(50) NOT NULL,
   `gestion` varchar(30) NOT NULL,
   `cod_inscrip` bigint,
   `semestre` varchar(30) NOT NULL,
@@ -619,7 +619,7 @@ CREATE TABLE `costo_semestral` (
 );
 
 CREATE TABLE `asignacion_costos` (
-  `cod_pensum` text NOT NULL,
+  `cod_pensum` varchar(50) NOT NULL,
   `cod_inscrip` bigint NOT NULL,
   `id_asignacion_costo` bigint AUTO_INCREMENT,
   `monto` decimal(10,2) NOT NULL,
@@ -649,8 +649,8 @@ CREATE TABLE `recargo_mora` (
   PRIMARY KEY (`id_recargo_mora`, `id_asignacion_costo`)
 );
 
-CREATE TABLE `usuarios_rol` (
-  `id_usuario_rol` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+CREATE TABLE `rol` (
+  `id_rol` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` varchar(60) NOT NULL,
   `descripcion` varchar(30) DEFAULT null,
   `estado` bool DEFAULT null,
@@ -952,7 +952,7 @@ ALTER TABLE `recibo` ADD CONSTRAINT `recibo_usuario_id_foreign` FOREIGN KEY (`id
 
 ALTER TABLE `recibo` ADD CONSTRAINT `pagos_forma_recibo_id_foreign` FOREIGN KEY (`id_forma_cobro`) REFERENCES `formas_cobro` (`id_forma_cobro`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE `usuarios` ADD CONSTRAINT `usuarios_usuario_rol_id_foreign` FOREIGN KEY (`id_usuario_rol`) REFERENCES `usuarios_rol` (`id_usuario_rol`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `usuarios` ADD CONSTRAINT `usuarios_usuario_rol_id_foreign` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE `asignacion_funcion` ADD CONSTRAINT `usuario_funcion_usuario_id_foreign` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 

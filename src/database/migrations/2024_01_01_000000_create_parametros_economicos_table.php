@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('parametros_economicos', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id_parametro_economico')->autoIncrement();
+            $table->string('nombre', 20);
+            $table->decimal('valor', 10, 2);
+            $table->boolean('estado');
+            $table->string('descripcion', 50);
             $table->timestamps();
+            
+            $table->primary(['id_parametro_economico', 'nombre']);
         });
     }
 

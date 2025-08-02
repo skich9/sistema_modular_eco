@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
             RolSeeder::class,
             FuncionSeeder::class,
             UsuarioSeeder::class,
+            PensumSeeder::class,
+            ParametrosEconomicosSeeder::class,
+            CostoSemestralSeeder::class,
+            AsignacionCostosSeeder::class,
         ]);
     }
 }
