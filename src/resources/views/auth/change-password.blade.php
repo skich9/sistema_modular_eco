@@ -3,20 +3,20 @@
 @section('title', 'Cambiar Contraseña - Sistema de Cobros CETA')
 
 @section('content')
-<div class="min-h-screen bg-gray-50">
+<div class="app-container">
 	<!-- Navigation Header -->
-	<nav class="bg-white shadow-lg">
-		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="flex justify-between h-16">
-				<div class="flex items-center">
-					<a href="{{ route('dashboard') }}" class="flex items-center">
-						<img src="{{ asset('images/logo-ceta.png') }}" alt="Logo CETA" class="h-8 w-8 mr-3">
-						<span class="text-xl font-bold text-gray-900">Sistema de Cobros CETA</span>
+	<nav class="navbar">
+		<div class="navbar-container">
+			<div class="navbar-wrapper">
+				<div class="navbar-brand">
+					<a href="{{ route('dashboard') }}" class="navbar-logo">
+						<img src="{{ asset('images/logo-ceta.png') }}" alt="Logo CETA" class="logo-image">
+						<span class="logo-text">Sistema de Cobros CETA</span>
 					</a>
 				</div>
 				
-				<div class="flex items-center">
-					<a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">
+				<div class="navbar-actions">
+					<a href="{{ route('dashboard') }}" class="btn-link">
 						<i class="fas fa-arrow-left mr-2"></i>Volver al Dashboard
 					</a>
 				</div>
@@ -25,17 +25,19 @@
 	</nav>
 
 	<!-- Main Content -->
-	<div class="max-w-md mx-auto py-12 px-4 sm:px-6 lg:px-8">
-		<div class="bg-white shadow rounded-lg">
-			<div class="px-4 py-5 sm:p-6">
-				<h3 class="text-lg leading-6 font-medium text-gray-900 mb-6">
+	<div class="content-container">
+		<div class="card auth-card">
+			<div class="card-header">
+				<h3 class="card-title">
 					<i class="fas fa-key mr-2"></i>Cambiar Contraseña
 				</h3>
+			</div>
+			<div class="card-body">
 
 				<!-- Alerts -->
 				@if($errors->any())
-					<div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded alert-auto-hide">
-						<div class="flex items-center">
+					<div class="alert alert-danger mb-4 alert-auto-hide">
+						<div class="alert-content">
 							<i class="fas fa-exclamation-triangle mr-2"></i>
 							<span>{{ $errors->first() }}</span>
 						</div>
@@ -43,104 +45,100 @@
 				@endif
 
 				@if(session('success'))
-					<div class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded alert-auto-hide">
-						<div class="flex items-center">
+					<div class="alert alert-success mb-4 alert-auto-hide">
+						<div class="alert-content">
 							<i class="fas fa-check-circle mr-2"></i>
 							<span>{{ session('success') }}</span>
 						</div>
 					</div>
 				@endif
 
-				<form action="{{ route('change-password.post') }}" method="POST" class="space-y-6">
+				<form action="{{ route('change-password.post') }}" method="POST" class="form-container">
 					@csrf
 
 					<!-- Current Password -->
-					<div>
-						<label for="current_password" class="block text-sm font-medium text-gray-700 mb-2">
+					<div class="form-group">
+						<label for="current_password" class="form-label">
 							Contraseña Actual
 						</label>
-						<div class="relative">
+						<div class="input-group">
 							<input 
 								id="current_password" 
 								name="current_password" 
 								type="password" 
 								required 
-								class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+								class="form-input" 
 								placeholder="Ingrese su contraseña actual"
 							>
 							<button 
 								type="button" 
-								class="absolute inset-y-0 right-0 pr-3 flex items-center"
+								class="password-toggle"
 								onclick="togglePassword('current_password', 'current-password-icon')"
 							>
-								<i id="current-password-icon" class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+								<i id="current-password-icon" class="fas fa-eye"></i>
 							</button>
 						</div>
 					</div>
 
 					<!-- New Password -->
-					<div>
-						<label for="new_password" class="block text-sm font-medium text-gray-700 mb-2">
+					<div class="form-group">
+						<label for="new_password" class="form-label">
 							Nueva Contraseña
 						</label>
-						<div class="relative">
+						<div class="input-group">
 							<input 
 								id="new_password" 
 								name="new_password" 
 								type="password" 
 								required 
-								class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+								class="form-input" 
 								placeholder="Mínimo 6 caracteres"
 							>
 							<button 
 								type="button" 
-								class="absolute inset-y-0 right-0 pr-3 flex items-center"
+								class="password-toggle"
 								onclick="togglePassword('new_password', 'new-password-icon')"
 							>
-								<i id="new-password-icon" class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+								<i id="new-password-icon" class="fas fa-eye"></i>
 							</button>
 						</div>
 					</div>
 
 					<!-- Confirm New Password -->
-					<div>
-						<label for="new_password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">
+					<div class="form-group">
+						<label for="new_password_confirmation" class="form-label">
 							Confirmar Nueva Contraseña
 						</label>
-						<div class="relative">
+						<div class="input-group">
 							<input 
 								id="new_password_confirmation" 
 								name="new_password_confirmation" 
 								type="password" 
 								required 
-								class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
-								placeholder="Repita la nueva contraseña"
+								class="form-input" 
+								placeholder="Confirme su nueva contraseña"
 							>
 							<button 
 								type="button" 
-								class="absolute inset-y-0 right-0 pr-3 flex items-center"
+								class="password-toggle"
 								onclick="togglePassword('new_password_confirmation', 'confirm-password-icon')"
 							>
-								<i id="confirm-password-icon" class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+								<i id="confirm-password-icon" class="fas fa-eye"></i>
 							</button>
 						</div>
 					</div>
 
 					<!-- Submit Button -->
-					<div class="flex justify-end space-x-3">
+					<div class="form-actions">
+						<button type="submit" class="btn-primary">
+							<i class="fas fa-save mr-2"></i>Guardar Cambios
+						</button>
 						<a 
 							href="{{ route('dashboard') }}" 
-							class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+							class="btn-link"
 						>
 							Cancelar
 						</a>
-						<button 
-							type="submit" 
-							class="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-						>
-							<i class="fas fa-save mr-2"></i>
-							Actualizar Contraseña
-						</button>
 					</div>
 				</form>
 			</div>

@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>@yield('title', 'Sistema de Cobros - Instituto Tecnológico CETA')</title>
 	
 	<!-- Tailwind CSS -->
@@ -12,13 +13,18 @@
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	
+	<!-- Google Fonts - Inter -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	
 	<!-- Global CSS -->
 	<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 	
 	<!-- Custom Styles específicos de la app que complementan el CSS global -->
 	<style>
 		.bg-gradient-ceta {
-			background:  linear-gradient(135deg, #134908 0%, #243ba9 50%, #243ba9 100%);
+			background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 50%, var(--primary-light) 100%);
 		}
 		
 		.text-shadow {
@@ -28,7 +34,7 @@
 	
 	@stack('styles')
 </head>
-<body class="min-h-screen bg-gray-50">
+<body class="min-h-screen">
 	<!-- Menú de navegación -->
 	@if(session()->has('usuario'))
 		<x-navigation-menu :usuario="$usuario" />

@@ -7,16 +7,22 @@
 <x-navigation-menu />
 
 	<!-- Main Content -->
-	<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+	<div class="content-container">
 		<!-- Page Header -->
-		<div class="mb-6">
-			<h1 class="text-2xl font-bold text-gray-900">Registro Usuarios</h1>
+		<div class="card mb-4">
+			<div class="card-header">
+				<div class="header-wrapper">
+					<div class="header-content">
+						<h1 class="page-title">Registro Usuarios</h1>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<!-- Alerts -->
 		@if(session('success'))
-			<div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded alert-auto-hide">
-				<div class="flex items-center">
+			<div class="alert alert-success mb-4 alert-auto-hide">
+				<div class="alert-content">
 					<i class="fas fa-check-circle mr-2"></i>
 					<span>{{ session('success') }}</span>
 				</div>
@@ -24,8 +30,8 @@
 		@endif
 
 		@if(session('error'))
-			<div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded alert-auto-hide">
-				<div class="flex items-center">
+			<div class="alert alert-danger mb-4 alert-auto-hide">
+				<div class="alert-content">
 					<i class="fas fa-exclamation-triangle mr-2"></i>
 					<span>{{ session('error') }}</span>
 				</div>
@@ -33,40 +39,40 @@
 		@endif
 
 		<!-- Users Table Card -->
-		<div class="bg-white shadow rounded-lg overflow-hidden">
+		<div class="card">
 			<!-- Table Header -->
-			<div class="bg-blue-600 px-6 py-4">
-				<h3 class="text-lg font-medium text-white">Lista de Usuarios</h3>
+			<div class="card-header">
+				<h3 class="card-title">Lista de Usuarios</h3>
 			</div>
 
 			<!-- Controls -->
-			<div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-				<div class="flex justify-between items-center">
-					<div class="flex items-center space-x-4">
-						<div class="flex items-center">
-							<label class="text-sm text-gray-700 mr-2">Mostrando</label>
-							<select id="perPage" class="border border-gray-300 rounded px-2 py-1 text-sm">
+			<div class="filter-controls">
+				<div class="filter-wrapper">
+					<div class="filter-group">
+						<div class="filter-item">
+							<label class="filter-label">Mostrando</label>
+							<select id="perPage" class="form-select form-select-sm">
 								<option value="10">10</option>
 								<option value="25">25</option>
 								<option value="50">50</option>
 							</select>
-							<span class="text-sm text-gray-700 ml-2">registros</span>
+							<span class="filter-text">registros</span>
 						</div>
 					</div>
 					
-					<div class="flex items-center space-x-4">
-						<div class="relative">
+					<div class="filter-actions">
+						<div class="search-box">
 							<input 
 								type="text" 
 								id="searchInput"
 								placeholder="Buscar..." 
-								class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								class="form-input"
 							>
-							<i class="fas fa-search absolute right-3 top-2.5 text-gray-400"></i>
+							<i class="fas fa-search search-icon"></i>
 						</div>
 						<button 
 							onclick="openCreateModal()" 
-							class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+							class="btn-primary"
 						>
 							<i class="fas fa-plus mr-2"></i>Añadir Usuario
 						</button>
@@ -75,82 +81,85 @@
 			</div>
 
 			<!-- Table -->
-			<div class="overflow-x-auto">
-				<table class="min-w-full divide-y divide-gray-200">
-					<thead class="bg-gray-50">
+			<div class="table-container">
+				<table class="table">
+					<thead>
 						<tr>
-							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								<button class="flex items-center hover:text-gray-700">
+							<th>
+								<button class="sort-button">
 									Usuario
 									<i class="fas fa-sort ml-1"></i>
 								</button>
 							</th>
-							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								<button class="flex items-center hover:text-gray-700">
+							<th>
+								<button class="sort-button">
 									Nombre
 									<i class="fas fa-sort ml-1"></i>
 								</button>
 							</th>
-							<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								<button class="flex items-center hover:text-gray-700">
+							<th>
+								<button class="sort-button">
 									Rol
 									<i class="fas fa-sort ml-1"></i>
 								</button>
 							</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								<button class="flex items-center hover:text-gray-700">
+                            <th>
+								<button class="sort-button">
 									Cargo
 									<i class="fas fa-sort ml-1"></i>
 								</button>
 							</th>
-							<th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-								<button class="flex items-center hover:text-gray-700">
+							<th class="text-center">
+								<button class="sort-button">
 									Activo
 									<i class="fas fa-sort ml-1"></i>
 								</button>
 							</th>
-							<th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+							<th class="text-center">
 								Editar
 							</th>
 						</tr>
 					</thead>
-					<tbody class="bg-white divide-y divide-gray-200" id="usersTableBody">
+					<tbody id="usersTableBody">
 						@forelse($usuarios as $usuario)
-							<tr class="hover:bg-gray-50">
-								<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+							<tr data-id="{{ $usuario->id_usuario }}">
+								<td>
 									{{ $usuario->nickname }}
 								</td>
-								<td class="px-6 py-4 whitespace-nowrap">
-									<div class="text-sm text-blue-600 font-medium">
+								<td>
+									<div class="user-name">
 										{{ $usuario->nombre }} {{ $usuario->ap_paterno }} {{ $usuario->ap_materno }}
 									</div>
 								</td>
-								<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+								<td>
 									{{ $usuario->rol->nombre ?? 'Sin rol' }}
 								</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <td>
 									{{ $usuario->rol->descripcion ?? 'Sin descripción' }}
 								</td>
-								<td class="px-6 py-4 whitespace-nowrap text-center">
-									<input 
-										type="checkbox" 
-										{{ $usuario->estado ? 'checked' : '' }}
-										onchange="toggleUserStatus({{ $usuario->id_usuario }}, this.checked)"
-										class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-									>
+								<td class="text-center">
+									<label class="toggle-switch">
+										<input type="checkbox" 
+											   class="toggle-input"
+											   {{ $usuario->estado ? 'checked' : '' }}
+											   onchange="toggleUserStatus({{ $usuario->id_usuario }}, this.checked)">
+										<span class="toggle-label {{ $usuario->estado ? 'active' : 'inactive' }}">
+											{{ $usuario->estado ? 'Activo' : 'Inactivo' }}
+										</span>
+									</label>
 								</td>
-								<td class="px-6 py-4 whitespace-nowrap text-center">
+								<td class="actions-cell">
 									<button 
 										onclick="editUser({{ $usuario->id_usuario }})"
-										class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm transition-colors duration-200"
+										class="btn-secondary btn-sm"
 									>
-										<i class="fas fa-edit"></i>
+										<i class="fas fa-edit"></i> Editar
 									</button>
 								</td>
 							</tr>
 						@empty
 							<tr>
-								<td colspan="6" class="px-6 py-4 text-center text-gray-500">
+								<td colspan="6" class="empty-table">
 									No hay usuarios registrados
 								</td>
 							</tr>
@@ -160,9 +169,9 @@
 			</div>
 
 			<!-- Pagination -->
-			<div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
-				<div class="flex items-center justify-between">
-					<div class="text-sm text-gray-700">
+			<div class="table-footer">
+				<div class="table-info">
+					<div class="pagination-info">
 						Mostrando de 1 al {{ $usuarios->count() }} de {{ $usuarios->count() }} registros
 					</div>
 					<div class="flex space-x-1">
@@ -179,49 +188,54 @@
 </div>
 
 <!-- Modal para Crear/Editar Usuario -->
-<div id="userModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-	<div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-		<div class="mt-3">
-			<h3 class="text-lg font-medium text-gray-900 mb-4" id="modalTitle">Crear Usuario</h3>
+<div id="userModal" class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title" id="modalTitle">Crear Usuario</h3>
+				<button type="button" onclick="closeModal()" class="close">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
 			
-			<form id="userForm" method="POST">
-				@csrf
-				<div id="methodField"></div>
-				
-				<div class="space-y-4">
-					<div>
-						<label class="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
-						<input type="text" name="nickname" id="nickname" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+			<div class="modal-body">
+				<form id="userForm" method="POST">
+					@csrf
+					<div id="methodField"></div>
+					
+					<div class="form-group mb-3">
+						<label for="nickname" class="form-label">Usuario</label>
+						<input type="text" name="nickname" id="nickname" required class="form-input">
 					</div>
 					
-					<div>
-						<label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-						<input type="text" name="nombre" id="nombre" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+					<div class="form-group mb-3">
+						<label for="nombre" class="form-label">Nombre</label>
+						<input type="text" name="nombre" id="nombre" required class="form-input">
 					</div>
 					
-					<div>
-						<label class="block text-sm font-medium text-gray-700 mb-1">Apellido Paterno</label>
-						<input type="text" name="ap_paterno" id="ap_paterno" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+					<div class="form-group mb-3">
+						<label for="ap_paterno" class="form-label">Apellido Paterno</label>
+						<input type="text" name="ap_paterno" id="ap_paterno" required class="form-input">
 					</div>
 					
-					<div>
-						<label class="block text-sm font-medium text-gray-700 mb-1">Apellido Materno</label>
-						<input type="text" name="ap_materno" id="ap_materno" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+					<div class="form-group mb-3">
+						<label for="ap_materno" class="form-label">Apellido Materno</label>
+						<input type="text" name="ap_materno" id="ap_materno" class="form-input">
 					</div>
 					
-					<div>
-						<label class="block text-sm font-medium text-gray-700 mb-1">CI</label>
-						<input type="text" name="ci" id="ci" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+					<div class="form-group mb-3">
+						<label for="ci" class="form-label">CI</label>
+						<input type="text" name="ci" id="ci" required class="form-input">
 					</div>
 					
-					<div id="passwordField">
-						<label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-						<input type="password" name="contrasenia" id="contrasenia" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+					<div id="passwordField" class="form-group mb-3">
+						<label for="contrasenia" class="form-label">Contraseña</label>
+						<input type="password" name="contrasenia" id="contrasenia" class="form-input">
 					</div>
 					
-					<div>
-						<label class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
-						<select name="id_rol" id="id_rol" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+					<div class="form-group mb-3">
+						<label for="id_rol" class="form-label">Rol</label>
+						<select name="id_rol" id="id_rol" required class="form-select">
 							<option value="">Seleccione un rol</option>
 							@foreach($roles as $rol)
 								<option value="{{ $rol->id_rol }}">{{ $rol->nombre }}</option>
@@ -229,21 +243,23 @@
 						</select>
 					</div>
 					
-					<div class="flex items-center">
-						<input type="checkbox" name="estado" id="estado" value="1" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-						<label for="estado" class="ml-2 block text-sm text-gray-700">Usuario Activo</label>
+					<div class="form-group mb-4">
+						<div class="form-check">
+							<input type="checkbox" name="estado" id="estado" value="1" checked class="form-check-input">
+							<label for="estado" class="form-check-label">Usuario Activo</label>
+						</div>
 					</div>
-				</div>
-				
-				<div class="flex justify-end space-x-3 mt-6">
-					<button type="button" onclick="closeModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
-						Cancelar
-					</button>
-					<button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
-						Guardar
-					</button>
-				</div>
-			</form>
+					
+					<div class="modal-footer">
+						<button type="button" onclick="closeModal()" class="btn btn-secondary">
+							Cancelar
+						</button>
+						<button type="submit" class="btn btn-primary">
+							Guardar
+						</button>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
@@ -255,12 +271,12 @@
 
 	function toggleDropdown() {
 		const dropdown = document.getElementById('userDropdown');
-		dropdown.classList.toggle('hidden');
+		dropdown.classList.toggle('show');
 	}
 
 	function toggleConfigMenu() {
 		const dropdown = document.getElementById('configDropdown');
-		dropdown.classList.toggle('hidden');
+		dropdown.classList.toggle('show');
 	}
 
 	function openCreateModal() {
@@ -275,7 +291,9 @@
 		document.getElementById('userForm').reset();
 		document.getElementById('estado').checked = true;
 		
-		document.getElementById('userModal').classList.remove('hidden');
+		const modal = document.getElementById('userModal');
+		modal.classList.add('show');
+		modal.style.display = 'block';
 	}
 
 	function editUser(userId) {
@@ -287,14 +305,37 @@
 		document.getElementById('passwordField').style.display = 'none';
 		document.getElementById('contrasenia').required = false;
 		
-		// Aquí cargarías los datos del usuario via AJAX
-		// Por simplicidad, lo omito por ahora
-		
-		document.getElementById('userModal').classList.remove('hidden');
+		// Cargar los datos del usuario via AJAX
+		fetch(`/usuarios/${userId}/edit`)
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					const usuario = data.data;
+					document.getElementById('nickname').value = usuario.nickname;
+					document.getElementById('nombre').value = usuario.nombre;
+					document.getElementById('ap_paterno').value = usuario.ap_paterno;
+					document.getElementById('ap_materno').value = usuario.ap_materno || '';
+					document.getElementById('ci').value = usuario.ci;
+					document.getElementById('id_rol').value = usuario.id_rol;
+					document.getElementById('estado').checked = usuario.estado;
+					
+					const modal = document.getElementById('userModal');
+					modal.classList.add('show');
+					modal.style.display = 'block';
+				} else {
+					showNotification('Error al cargar los datos del usuario', 'error');
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				showNotification('Error al cargar los datos del usuario', 'error');
+			});
 	}
 
 	function closeModal() {
-		document.getElementById('userModal').classList.add('hidden');
+		const modal = document.getElementById('userModal');
+		modal.classList.remove('show');
+		modal.style.display = 'none';
 	}
 
 	function toggleUserStatus(userId, status) {
@@ -309,34 +350,88 @@
 		.then(response => response.json())
 		.then(data => {
 			if (!data.success) {
-				alert('Error al cambiar el estado del usuario');
+				showNotification('Error al cambiar el estado del usuario', 'error');
 				// Revertir checkbox
 				event.target.checked = !status;
+			} else {
+				// Actualizar la etiqueta de estado
+				const statusLabel = document.querySelector(`tr[data-id="${userId}"] .toggle-label`);
+				if (statusLabel) {
+					statusLabel.textContent = status ? 'Activo' : 'Inactivo';
+					statusLabel.className = `toggle-label ${status ? 'active' : 'inactive'}`;
+				}
+				showNotification('Estado actualizado correctamente', 'success');
 			}
 		})
 		.catch(error => {
 			console.error('Error:', error);
-			alert('Error al cambiar el estado del usuario');
+			showNotification('Error al cambiar el estado del usuario', 'error');
 			event.target.checked = !status;
 		});
 	}
 
-	// Close dropdowns when clicking outside
-	document.addEventListener('click', function(event) {
-		const userDropdown = document.getElementById('userDropdown');
-		const configDropdown = document.getElementById('configDropdown');
+	function showNotification(message, type = 'success') {
+		const alertDiv = document.createElement('div');
+		alertDiv.className = `alert alert-${type} mb-4 alert-auto-hide`;
+		
+		const alertContent = document.createElement('div');
+		alertContent.className = 'alert-content';
+		
+		const icon = document.createElement('i');
+		icon.className = type === 'success' ? 'fas fa-check-circle mr-2' : 'fas fa-exclamation-triangle mr-2';
+		
+		const span = document.createElement('span');
+		span.textContent = message;
+		
+		alertContent.appendChild(icon);
+		alertContent.appendChild(span);
+		alertDiv.appendChild(alertContent);
+		
+		const container = document.querySelector('.content-container');
+		container.insertBefore(alertDiv, container.querySelector('.card:nth-child(2)'));
+		
+		setTimeout(() => {
+			alertDiv.remove();
+		}, 5000);
+	}
+
+	// Inicialización cuando el DOM está listo
+	document.addEventListener('DOMContentLoaded', function() {
+		// Cerrar modal al hacer clic fuera
 		const modal = document.getElementById('userModal');
-		const button = event.target.closest('button');
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				closeModal();
+			}
+		};
 		
-		if (!button || (!button.onclick && !button.getAttribute('onclick'))) {
-			userDropdown.classList.add('hidden');
-			configDropdown.classList.add('hidden');
-		}
+		// Asegurar que el modal esté oculto inicialmente
+		modal.style.display = 'none';
 		
-		// Close modal when clicking outside
-		if (event.target === modal) {
-			closeModal();
-		}
+		// Agregar data-id a las filas para facilitar la actualización de estado
+		document.querySelectorAll('tbody tr').forEach(tr => {
+			if (!tr.hasAttribute('data-id')) {
+				const userId = tr.querySelector('button[onclick^="editUser"]');
+				if (userId) {
+					const match = userId.getAttribute('onclick').match(/editUser\((\d+)\)/);
+					if (match && match[1]) {
+						tr.setAttribute('data-id', match[1]);
+					}
+				}
+			}
+		});
+		
+		// Inicializar eventos para cerrar dropdowns
+		document.addEventListener('click', function(event) {
+			const userDropdown = document.getElementById('userDropdown');
+			const configDropdown = document.getElementById('configDropdown');
+			const button = event.target.closest('button');
+			
+			if (userDropdown && configDropdown && (!button || (!button.onclick && !button.getAttribute('onclick')))) {
+				userDropdown.classList.remove('show');
+				configDropdown.classList.remove('show');
+			}
+		});
 	});
 </script>
 @endpush

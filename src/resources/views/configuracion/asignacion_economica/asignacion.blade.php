@@ -2,225 +2,259 @@
 
 @section('content')
 
-<div class="container mx-auto px-4 py-6">
-	<div class="flex justify-between items-center mb-6">
-		<div>
-			<h1 class="text-2xl font-bold text-gray-800">Asignación Económica</h1>
-			<p class="text-gray-600">Pensum: {{ $pensum->nombre }} | Gestión: {{ $gestion }}</p>
+<div class="content-container">
+	<!-- Header -->
+	<div class="card mb-6">
+		<div class="card-header">
+			<div class="flex justify-between items-center">
+				<div>
+					<h1 class="text-2xl font-bold">Asignación Económica</h1>
+					<p class="text-sm text-secondary-color mt-1">Pensum: {{ $pensum->nombre }} | Gestión: {{ $gestion }}</p>
+				</div>
+				<a href="{{ route('asignacion_economica.index') }}" class="btn-secondary flex items-center">
+					<i class="fas fa-arrow-left mr-2"></i> Volver
+				</a>
+			</div>
 		</div>
-		<a href="{{ route('asignacion_economica.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded flex items-center">
-			<i class="fas fa-arrow-left mr-2"></i> Volver
-		</a>
 	</div>
 
-	<!-- Alerta de éxito -->
+	<!-- Alertas -->
 	@if(session('success'))
-	<div id="success-alert" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 relative" role="alert">
-		<p>{{ session('success') }}</p>
-		<button onclick="document.getElementById('success-alert').remove()" class="absolute top-0 right-0 mt-2 mr-2">
+	<div id="success-alert" class="alert alert-success mb-4 alert-dismissible">
+		<div class="alert-content">
+			<i class="fas fa-check-circle mr-2"></i>
+			<span>{{ session('success') }}</span>
+		</div>
+		<button type="button" class="close" onclick="document.getElementById('success-alert').remove()">
 			<i class="fas fa-times"></i>
 		</button>
 	</div>
 	@endif
 
-	<!-- Alerta de error -->
 	@if(session('error'))
-	<div id="error-alert" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 relative" role="alert">
-		<p>{{ session('error') }}</p>
-		<button onclick="document.getElementById('error-alert').remove()" class="absolute top-0 right-0 mt-2 mr-2">
+	<div id="error-alert" class="alert alert-danger mb-4 alert-dismissible">
+		<div class="alert-content">
+			<i class="fas fa-exclamation-triangle mr-2"></i>
+			<span>{{ session('error') }}</span>
+		</div>
+		<button type="button" class="close" onclick="document.getElementById('error-alert').remove()">
 			<i class="fas fa-times"></i>
 		</button>
 	</div>
 	@endif
 
 	<!-- Costos Semestrales -->
-	<div class="bg-white shadow-md rounded-lg p-6 mb-6">
-		<h2 class="text-lg font-semibold text-gray-800 mb-4">Costos Semestrales</h2>
-		
-		@if($costosSemestrales->isEmpty())
-			<p class="text-gray-500 text-center py-4">No hay costos semestrales definidos para este pensum y gestión</p>
-		@else
-			<div class="overflow-x-auto">
-				<table class="min-w-full divide-y divide-gray-200">
-					<thead class="bg-gray-50">
-						<tr>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semestre</th>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Creación</th>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-						</tr>
-					</thead>
-					<tbody class="bg-white divide-y divide-gray-200">
-						@foreach($costosSemestrales as $costo)
-						<tr>
-							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $costo->id_costo_semestral }}</td>
-							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $costo->semestre == 1 ? 'Primer Semestre' : 'Segundo Semestre' }}</td>
-							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ number_format($costo->monto_semestre, 2) }}</td>
-							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $costo->created_at->format('d/m/Y H:i') }}</td>
-							<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-								<button onclick="openAsignacionModal({{ $costo->id_costo_semestral }})" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-xs">
-									Asignar Costo
-								</button>
-							</td>
-						</tr>
-						@endforeach
-					</tbody>
-				</table>
-			</div>
-		@endif
+	<div class="card mb-6">
+		<div class="card-header">
+			<h2 class="text-lg font-semibold">Costos Semestrales</h2>
+		</div>
+		<div class="card-body">
+			@if($costosSemestrales->isEmpty())
+				<div class="empty-data">
+					<i class="fas fa-info-circle mr-1"></i> No hay costos semestrales definidos para este pensum y gestión
+				</div>
+			@else
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Semestre</th>
+								<th>Monto</th>
+								<th>Fecha Creación</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($costosSemestrales as $costo)
+							<tr data-id="{{ $costo->id_costo_semestral }}">
+								<td>{{ $costo->id_costo_semestral }}</td>
+								<td>{{ $costo->semestre == 1 ? 'Primer Semestre' : 'Segundo Semestre' }}</td>
+								<td>{{ number_format($costo->monto_semestre, 2) }}</td>
+								<td>{{ $costo->created_at->format('d/m/Y H:i') }}</td>
+								<td>
+									<button onclick="openAsignacionModal({{ $costo->id_costo_semestral }})" class="btn btn-sm btn-primary">
+										<i class="fas fa-plus-circle mr-1"></i> Asignar Costo
+									</button>
+								</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+			@endif
+		</div>
 	</div>
 
 	<!-- Asignaciones de Costos -->
-	<div class="bg-white shadow-md rounded-lg p-6">
-		<h2 class="text-lg font-semibold text-gray-800 mb-4">Asignaciones de Costos</h2>
-		
-		@if($asignaciones->isEmpty())
-			<p class="text-gray-500 text-center py-4">No hay asignaciones de costos para este pensum y gestión</p>
-		@else
-			<div class="overflow-x-auto">
-				<table class="min-w-full divide-y divide-gray-200">
-					<thead class="bg-gray-50">
-						<tr>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Inscripción</th>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semestre</th>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Observaciones</th>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-							<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-						</tr>
-					</thead>
-					<tbody class="bg-white divide-y divide-gray-200">
-						@foreach($asignaciones as $asignacion)
-						<tr>
-							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $asignacion->id_asignacion_costo }}</td>
-							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $asignacion->inscripcion->nombre ?? 'N/A' }}</td>
-							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $asignacion->costoSemestral->semestre == 1 ? 'Primer Semestre' : 'Segundo Semestre' }}</td>
-							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ number_format($asignacion->monto, 2) }}</td>
-							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $asignacion->observaciones ?? 'N/A' }}</td>
-							<td class="px-6 py-4 whitespace-nowrap">
-								<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $asignacion->estado ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-									{{ $asignacion->estado ? 'Activo' : 'Inactivo' }}
-								</span>
-							</td>
-							<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-								<div class="flex space-x-2">
-									<button onclick="toggleAsignacionStatus('{{ $asignacion->cod_pensum }}', '{{ $asignacion->cod_inscrip }}', '{{ $asignacion->id_asignacion_costo }}')" class="text-indigo-600 hover:text-indigo-900" title="{{ $asignacion->estado ? 'Desactivar' : 'Activar' }}">
-										<i class="fas {{ $asignacion->estado ? 'fa-toggle-on' : 'fa-toggle-off' }} text-lg"></i>
-									</button>
-									<button onclick="openEditAsignacionModal('{{ $asignacion->cod_pensum }}', '{{ $asignacion->cod_inscrip }}', '{{ $asignacion->id_asignacion_costo }}')" class="text-yellow-600 hover:text-yellow-900" title="Editar">
-										<i class="fas fa-edit text-lg"></i>
-									</button>
-									<button onclick="confirmDeleteAsignacion('{{ $asignacion->cod_pensum }}', '{{ $asignacion->cod_inscrip }}', '{{ $asignacion->id_asignacion_costo }}')" class="text-red-600 hover:text-red-900" title="Eliminar">
-										<i class="fas fa-trash-alt text-lg"></i>
-									</button>
-								</div>
-							</td>
-						</tr>
-						@endforeach
-					</tbody>
-				</table>
-			</div>
-		@endif
+	<div class="card">
+		<div class="card-header">
+			<h2 class="text-lg font-semibold">Asignaciones de Costos</h2>
+		</div>
+		<div class="card-body">
+			@if($asignaciones->isEmpty())
+				<div class="empty-data">
+					<i class="fas fa-info-circle mr-1"></i> No hay asignaciones de costos para este pensum y gestión
+				</div>
+			@else
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Inscripción</th>
+								<th>Semestre</th>
+								<th>Monto</th>
+								<th>Observaciones</th>
+								<th>Estado</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($asignaciones as $asignacion)
+							<tr data-id="{{ $asignacion->id_asignacion_costo }}">
+								<td>{{ $asignacion->id_asignacion_costo }}</td>
+								<td>{{ $asignacion->inscripcion->nombre ?? 'N/A' }}</td>
+								<td>{{ $asignacion->costoSemestral->semestre == 1 ? 'Primer Semestre' : 'Segundo Semestre' }}</td>
+								<td>{{ number_format($asignacion->monto, 2) }}</td>
+								<td>{{ $asignacion->observaciones ?? 'N/A' }}</td>
+								<td>
+									<span class="badge {{ $asignacion->estado ? 'badge-success' : 'badge-danger' }}">
+										{{ $asignacion->estado ? 'Activo' : 'Inactivo' }}
+									</span>
+								</td>
+								<td>
+									<div class="btn-group">
+										<button onclick="toggleAsignacionStatus('{{ $asignacion->cod_pensum }}', '{{ $asignacion->cod_inscrip }}', '{{ $asignacion->id_asignacion_costo }}')" class="btn btn-sm btn-icon {{ $asignacion->estado ? 'btn-light' : 'btn-secondary' }}" title="{{ $asignacion->estado ? 'Desactivar' : 'Activar' }}">
+											<i class="fas {{ $asignacion->estado ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i>
+										</button>
+										<button onclick="openEditAsignacionModal('{{ $asignacion->cod_pensum }}', '{{ $asignacion->cod_inscrip }}', '{{ $asignacion->id_asignacion_costo }}')" class="btn btn-sm btn-icon btn-warning" title="Editar">
+											<i class="fas fa-edit"></i>
+										</button>
+										<button onclick="confirmDeleteAsignacion('{{ $asignacion->cod_pensum }}', '{{ $asignacion->cod_inscrip }}', '{{ $asignacion->id_asignacion_costo }}')" class="btn btn-sm btn-icon btn-danger" title="Eliminar">
+											<i class="fas fa-trash-alt"></i>
+										</button>
+									</div>
+								</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+			@endif
+		</div>
 	</div>
 
-	<!-- Modal para crear asignación de costo -->
-	<div id="asignacionModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-		<div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-			<div class="mt-3 text-center">
-				<h3 id="modal-title" class="text-lg leading-6 font-medium text-gray-900">Crear Asignación de Costo</h3>
-				<form id="asignacionForm" class="mt-4">
-					<input type="hidden" id="costo_semestral_id" name="id_costo_semestral">
-					<input type="hidden" id="pensum_id" name="cod_pensum" value="{{ $pensum->cod_pensum }}">
-					
-					<div class="mb-4">
-						<label for="inscripcion" class="block text-sm font-medium text-gray-700 text-left">Inscripción</label>
-						<select id="inscripcion" name="cod_inscrip" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-							<option value="">Seleccione una inscripción</option>
-							<!-- Aquí se cargarán las inscripciones dinámicamente -->
-						</select>
-					</div>
-					<div class="mb-4">
-						<label for="monto" class="block text-sm font-medium text-gray-700 text-left">Monto</label>
-						<input type="number" id="monto" name="monto" step="0.01" min="0" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-					</div>
-					<div class="mb-4">
-						<label for="observaciones" class="block text-sm font-medium text-gray-700 text-left">Observaciones</label>
-						<textarea id="observaciones" name="observaciones" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
-					</div>
-					<div class="mb-4">
-						<label for="estado_asignacion" class="block text-sm font-medium text-gray-700 text-left">Estado</label>
-						<select id="estado_asignacion" name="estado" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-							<option value="1">Activo</option>
-							<option value="0">Inactivo</option>
-						</select>
-					</div>
-					<div class="flex justify-between mt-6">
-						<button type="button" onclick="closeAsignacionModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-							Cancelar
-						</button>
-						<button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-							Guardar
-						</button>
-					</div>
-				</form>
+	<!-- Modal para asignar costo semestral -->
+	<div id="asignacionModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Asignar Costo Semestral</h3>
+					<button type="button" class="close" onclick="closeAsignacionModal()">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="asignacionForm">
+						<input type="hidden" id="costoSemestralId" name="costoSemestralId">
+						<input type="hidden" id="pensumCodigo" name="pensumCodigo" value="{{ $pensum->codigo }}">
+						<input type="hidden" id="gestion" name="gestion" value="{{ $gestion }}">
+						
+						<div class="form-group mb-3">
+							<label for="inscripcionId" class="form-label">Inscripción</label>
+							<select id="inscripcionId" name="inscripcionId" class="form-select" required>
+								<option value="">Seleccione una inscripción</option>
+								@foreach($inscripciones as $inscripcion)
+								<option value="{{ $inscripcion->cod_inscrip }}">{{ $inscripcion->nombre }}</option>
+								@endforeach
+							</select>
+						</div>
+						
+						<div class="form-group mb-3">
+							<label for="monto" class="form-label">Monto</label>
+							<input type="number" step="0.01" id="monto" name="monto" class="form-control" required>
+						</div>
+						
+						<div class="form-group mb-3">
+							<label for="observaciones" class="form-label">Observaciones</label>
+							<textarea id="observaciones" name="observaciones" rows="3" class="form-control"></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onclick="closeAsignacionModal()">
+						<i class="fas fa-times mr-1"></i> Cancelar
+					</button>
+					<button type="button" class="btn btn-primary" onclick="saveAsignacion()">
+						<i class="fas fa-save mr-1"></i> Guardar
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Modal para editar asignación de costo -->
-	<div id="editAsignacionModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-		<div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-			<div class="mt-3 text-center">
-				<h3 class="text-lg leading-6 font-medium text-gray-900">Editar Asignación de Costo</h3>
-				<form id="editAsignacionForm" class="mt-4">
-					<input type="hidden" id="edit_pensum_id" name="cod_pensum">
-					<input type="hidden" id="edit_inscripcion_id" name="cod_inscrip">
-					<input type="hidden" id="edit_asignacion_id" name="id_asignacion_costo">
-					
-					<div class="mb-4">
-						<label for="edit_monto" class="block text-sm font-medium text-gray-700 text-left">Monto</label>
-						<input type="number" id="edit_monto" name="monto" step="0.01" min="0" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-					</div>
-					<div class="mb-4">
-						<label for="edit_observaciones" class="block text-sm font-medium text-gray-700 text-left">Observaciones</label>
-						<textarea id="edit_observaciones" name="observaciones" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
-					</div>
-					<div class="mb-4">
-						<label for="edit_estado" class="block text-sm font-medium text-gray-700 text-left">Estado</label>
-						<select id="edit_estado" name="estado" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-							<option value="1">Activo</option>
-							<option value="0">Inactivo</option>
-						</select>
-					</div>
-					<div class="flex justify-between mt-6">
-						<button type="button" onclick="closeEditAsignacionModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-							Cancelar
-						</button>
-						<button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-							Actualizar
-						</button>
-					</div>
-				</form>
+	<div id="editAsignacionModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Editar Asignación de Costo</h3>
+					<button type="button" class="close" onclick="closeEditAsignacionModal()">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="editAsignacionForm">
+						<input type="hidden" id="editPensumCodigo" name="pensumCodigo">
+						<input type="hidden" id="editInscripcionId" name="inscripcionId">
+						<input type="hidden" id="editAsignacionId" name="asignacionId">
+						
+						<div class="form-group mb-3">
+							<label for="editMonto" class="form-label">Monto</label>
+							<input type="number" step="0.01" id="editMonto" name="monto" class="form-control" required>
+						</div>
+						
+						<div class="form-group mb-3">
+							<label for="editObservaciones" class="form-label">Observaciones</label>
+							<textarea id="editObservaciones" name="observaciones" rows="3" class="form-control"></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onclick="closeEditAsignacionModal()">
+						<i class="fas fa-times mr-1"></i> Cancelar
+					</button>
+					<button type="button" class="btn btn-warning" onclick="updateAsignacion()">
+						<i class="fas fa-edit mr-1"></i> Actualizar
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Modal de confirmación para eliminar -->
-	<div id="deleteAsignacionModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
-		<div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-			<div class="mt-3 text-center">
-				<h3 class="text-lg leading-6 font-medium text-gray-900">Confirmar Eliminación</h3>
-				<div class="mt-2 px-7 py-3">
-					<p class="text-sm text-gray-500">¿Está seguro que desea eliminar esta asignación de costo? Esta acción no se puede deshacer.</p>
-				</div>
-				<div class="flex justify-between mt-6">
-					<button type="button" onclick="closeDeleteAsignacionModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-						Cancelar
+	<div id="deleteAsignacionModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Confirmar Eliminación</h3>
+					<button type="button" class="close" onclick="closeDeleteAsignacionModal()">
+						<i class="fas fa-times"></i>
 					</button>
-					<button type="button" id="confirmDeleteAsignacionBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-						Eliminar
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-warning">
+						<i class="fas fa-exclamation-triangle mr-2"></i>
+						¿Está seguro que desea eliminar esta asignación de costo? Esta acción no se puede deshacer.
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onclick="closeDeleteAsignacionModal()">
+						<i class="fas fa-times mr-1"></i> Cancelar
+					</button>
+					<button type="button" id="confirmDeleteAsignacionBtn" class="btn btn-danger">
+						<i class="fas fa-trash-alt mr-1"></i> Eliminar
 					</button>
 				</div>
 			</div>
@@ -235,14 +269,14 @@
 	let deleteAsignacionData = null;
 
 	function openAsignacionModal(costoSemestralId) {
-		document.getElementById('costo_semestral_id').value = costoSemestralId;
+		document.getElementById('costoSemestralId').value = costoSemestralId;
 		
 		// Cargar inscripciones disponibles
-		fetch(`/api/inscripciones/pensum/{{ $pensum->cod_pensum }}`)
+		fetch(`/api/inscripciones/pensum/{{ $pensum->codigo }}`)
 			.then(response => response.json())
 			.then(data => {
 				if (data.success) {
-					const inscripcionSelect = document.getElementById('inscripcion');
+					const inscripcionSelect = document.getElementById('inscripcionId');
 					inscripcionSelect.innerHTML = '<option value="">Seleccione una inscripción</option>';
 					
 					data.data.forEach(inscripcion => {
@@ -252,26 +286,30 @@
 						inscripcionSelect.appendChild(option);
 					});
 					
-					document.getElementById('asignacionModal').classList.remove('hidden');
+					const modal = document.getElementById('asignacionModal');
+					modal.classList.add('show');
+					modal.style.display = 'block';
 				} else {
-					alert('Error al cargar las inscripciones');
+					showAlert('Error al cargar las inscripciones', 'danger');
 				}
 			})
 			.catch(error => {
 				console.error('Error:', error);
-				alert('Error al cargar las inscripciones');
+				showAlert('Error al cargar las inscripciones', 'danger');
 			});
 	}
 
 	function closeAsignacionModal() {
-		document.getElementById('asignacionModal').classList.add('hidden');
+		const modal = document.getElementById('asignacionModal');
+		modal.classList.remove('show');
+		modal.style.display = 'none';
 		document.getElementById('asignacionForm').reset();
 	}
 
 	function openEditAsignacionModal(codPensum, codInscrip, idAsignacion) {
-		document.getElementById('edit_pensum_id').value = codPensum;
-		document.getElementById('edit_inscripcion_id').value = codInscrip;
-		document.getElementById('edit_asignacion_id').value = idAsignacion;
+		document.getElementById('editPensumCodigo').value = codPensum;
+		document.getElementById('editInscripcionId').value = codInscrip;
+		document.getElementById('editAsignacionId').value = idAsignacion;
 		
 		// Cargar datos de la asignación
 		fetch(`/configuracion/asignacion-economica/${codPensum}/${codInscrip}/${idAsignacion}/show`)
@@ -279,33 +317,100 @@
 			.then(data => {
 				if (data.success) {
 					const asignacion = data.data;
-					document.getElementById('edit_monto').value = asignacion.monto;
-					document.getElementById('edit_observaciones').value = asignacion.observaciones || '';
-					document.getElementById('edit_estado').value = asignacion.estado ? '1' : '0';
-					document.getElementById('editAsignacionModal').classList.remove('hidden');
+					document.getElementById('editMonto').value = asignacion.monto;
+					document.getElementById('editObservaciones').value = asignacion.observaciones || '';
+					
+					const modal = document.getElementById('editAsignacionModal');
+					modal.classList.add('show');
+					modal.style.display = 'block';
 				} else {
-					alert('Error al cargar los datos de la asignación de costo');
+					showAlert('Error al cargar los datos de la asignación de costo', 'danger');
 				}
 			})
 			.catch(error => {
 				console.error('Error:', error);
-				alert('Error al cargar los datos de la asignación de costo');
+				showAlert('Error al cargar los datos de la asignación de costo', 'danger');
 			});
 	}
 
 	function closeEditAsignacionModal() {
-		document.getElementById('editAsignacionModal').classList.add('hidden');
+		const modal = document.getElementById('editAsignacionModal');
+		modal.classList.remove('show');
+		modal.style.display = 'none';
 		document.getElementById('editAsignacionForm').reset();
 	}
 
 	function confirmDeleteAsignacion(codPensum, codInscrip, idAsignacion) {
 		deleteAsignacionData = { codPensum, codInscrip, idAsignacion };
-		document.getElementById('deleteAsignacionModal').classList.remove('hidden');
+		const modal = document.getElementById('deleteAsignacionModal');
+		modal.classList.add('show');
+		modal.style.display = 'block';
+		
+		// Configurar el botón de eliminar para esta instancia específica
+		document.getElementById('confirmDeleteAsignacionBtn').onclick = function() {
+			deleteAsignacion(codPensum, codInscrip, idAsignacion);
+		};
 	}
 
 	function closeDeleteAsignacionModal() {
-		document.getElementById('deleteAsignacionModal').classList.add('hidden');
+		const modal = document.getElementById('deleteAsignacionModal');
+		modal.classList.remove('show');
+		modal.style.display = 'none';
 		deleteAsignacionData = null;
+	}
+	
+	function deleteAsignacion(codPensum, codInscrip, idAsignacion) {
+		fetch(`/configuracion/asignacion-economica/${codPensum}/${codInscrip}/${idAsignacion}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+			}
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.success) {
+				window.location.reload();
+			} else {
+				showAlert(`Error: ${data.message}`, 'danger');
+				closeDeleteAsignacionModal();
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+			showAlert('Error al eliminar la asignación de costo', 'danger');
+			closeDeleteAsignacionModal();
+		});
+	}
+
+	// Función auxiliar para mostrar alertas
+	function showAlert(message, type) {
+		const alertDiv = document.createElement('div');
+		alertsDiv = document.createElement('div');
+		alertsDiv.style.position = 'fixed';
+		alertsDiv.style.top = '20px';
+		alertsDiv.style.right = '20px';
+		alertsDiv.style.zIndex = '9999';
+		document.body.appendChild(alertsDiv);
+
+		alertDiv.className = `alert alert-${type} alert-dismissible`;
+		alertDiv.innerHTML = `
+			<div class="alert-content">
+				<i class="fas fa-${type === 'danger' ? 'exclamation-triangle' : 'check-circle'} mr-2"></i>
+				<span>${message}</span>
+			</div>
+			<button type="button" class="close" onclick="this.parentElement.remove()">
+				<i class="fas fa-times"></i>
+			</button>
+		`;
+		alertsDiv.appendChild(alertDiv);
+
+		setTimeout(() => {
+			alertDiv.remove();
+			if (alertsDiv.children.length === 0) {
+				alertsDiv.remove();
+			}
+		}, 5000);
 	}
 
 	function toggleAsignacionStatus(codPensum, codInscrip, idAsignacion) {
@@ -321,29 +426,28 @@
 			if (data.success) {
 				window.location.reload();
 			} else {
-				alert('Error al cambiar el estado de la asignación de costo');
+				showAlert('Error al cambiar el estado de la asignación de costo', 'danger');
 			}
 		})
 		.catch(error => {
 			console.error('Error:', error);
-			alert('Error al cambiar el estado de la asignación de costo');
+			showAlert('Error al cambiar el estado de la asignación de costo', 'danger');
 		});
 	}
 
-	document.getElementById('asignacionForm').addEventListener('submit', function(e) {
-		e.preventDefault();
-		
+	// Función para guardar una nueva asignación
+	function saveAsignacion() {
 		const formData = {
-			cod_pensum: document.getElementById('pensum_id').value,
-			cod_inscrip: document.getElementById('inscripcion').value,
+			cod_pensum: document.getElementById('pensumCodigo').value,
+			cod_inscrip: document.getElementById('inscripcionId').value,
 			monto: document.getElementById('monto').value,
 			observaciones: document.getElementById('observaciones').value,
-			estado: document.getElementById('estado_asignacion').value === '1',
-			id_costo_semestral: document.getElementById('costo_semestral_id').value
+			estado: true,
+			id_costo_semestral: document.getElementById('costoSemestralId').value
 		};
 		
 		if (!formData.cod_inscrip || !formData.monto) {
-			alert('Por favor complete todos los campos obligatorios');
+			showAlert('Por favor complete todos los campos obligatorios', 'warning');
 			return;
 		}
 		
@@ -361,30 +465,29 @@
 				window.location.reload();
 			} else {
 				const errorMessages = data.errors ? Object.values(data.errors).flat().join('\n') : data.message;
-				alert(`Error: ${errorMessages}`);
+				showAlert(`Error: ${errorMessages}`, 'danger');
 			}
 		})
 		.catch(error => {
 			console.error('Error:', error);
-			alert('Error al crear la asignación de costo');
+			showAlert('Error al crear la asignación de costo', 'danger');
 		});
-	});
+	}
 
-	document.getElementById('editAsignacionForm').addEventListener('submit', function(e) {
-		e.preventDefault();
-		
-		const codPensum = document.getElementById('edit_pensum_id').value;
-		const codInscrip = document.getElementById('edit_inscripcion_id').value;
-		const idAsignacion = document.getElementById('edit_asignacion_id').value;
+	// Función para actualizar una asignación existente
+	function updateAsignacion() {
+		const codPensum = document.getElementById('editPensumCodigo').value;
+		const codInscrip = document.getElementById('editInscripcionId').value;
+		const idAsignacion = document.getElementById('editAsignacionId').value;
 		
 		const formData = {
-			monto: document.getElementById('edit_monto').value,
-			observaciones: document.getElementById('edit_observaciones').value,
-			estado: document.getElementById('edit_estado').value === '1'
+			monto: document.getElementById('editMonto').value,
+			observaciones: document.getElementById('editObservaciones').value,
+			estado: true
 		};
 		
 		if (!formData.monto) {
-			alert('Por favor complete todos los campos obligatorios');
+			showAlert('Por favor complete todos los campos obligatorios', 'warning');
 			return;
 		}
 		
@@ -402,41 +505,29 @@
 				window.location.reload();
 			} else {
 				const errorMessages = data.errors ? Object.values(data.errors).flat().join('\n') : data.message;
-				alert(`Error: ${errorMessages}`);
+				showAlert(`Error: ${errorMessages}`, 'danger');
 			}
 		})
 		.catch(error => {
 			console.error('Error:', error);
-			alert('Error al actualizar la asignación de costo');
+			showAlert('Error al actualizar la asignación de costo', 'danger');
 		});
-	});
+	}
 
-	document.getElementById('confirmDeleteAsignacionBtn').addEventListener('click', function() {
-		if (deleteAsignacionData) {
-			const { codPensum, codInscrip, idAsignacion } = deleteAsignacionData;
-			
-			fetch(`/configuracion/asignacion-economica/${codPensum}/${codInscrip}/${idAsignacion}`, {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+	// El botón de eliminar se configura dinámicamente en la función confirmDeleteAsignacion
+
+	// Inicializar modales
+	document.addEventListener('DOMContentLoaded', function() {
+		// Cerrar modales cuando se hace clic fuera de ellos
+		window.onclick = function(event) {
+			const modals = document.getElementsByClassName('modal');
+			for (let i = 0; i < modals.length; i++) {
+				if (event.target == modals[i]) {
+					modals[i].style.display = 'none';
+					modals[i].classList.remove('show');
 				}
-			})
-			.then(response => response.json())
-			.then(data => {
-				if (data.success) {
-					window.location.reload();
-				} else {
-					alert(`Error: ${data.message}`);
-					closeDeleteAsignacionModal();
-				}
-			})
-			.catch(error => {
-				console.error('Error:', error);
-				alert('Error al eliminar la asignación de costo');
-				closeDeleteAsignacionModal();
-			});
-		}
+			}
+		};
 	});
 </script>
 @endsection
