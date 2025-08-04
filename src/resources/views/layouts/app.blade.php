@@ -12,7 +12,10 @@
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	
-	<!-- Custom Styles -->
+	<!-- Global CSS -->
+	<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+	
+	<!-- Custom Styles específicos de la app que complementan el CSS global -->
 	<style>
 		.bg-gradient-ceta {
 			background:  linear-gradient(135deg, #134908 0%, #243ba9 50%, #243ba9 100%);
@@ -20,25 +23,6 @@
 		
 		.text-shadow {
 			text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-		}
-		
-		.card-shadow {
-			box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-		}
-		
-		.input-focus:focus {
-			border-color: #3b82f6;
-			box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-		}
-		
-		.btn-primary {
-			background: linear-gradient(135deg, #134908 0%, #243ba9 100%);
-			transition: all 0.3s ease;
-		}
-		
-		.btn-primary:hover {
-			background: linear-gradient(135deg, #134908 0%, #243ba9 100%);
-			transform: translateY(-1px);
 		}
 	</style>
 	

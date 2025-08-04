@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container mx-auto px-4 py-6">
 	<div class="flex justify-between items-center mb-6">
 		<h1 class="text-2xl font-bold text-gray-800">Asignación Económica</h1>
@@ -60,7 +61,7 @@
 	<div class="bg-white shadow-md rounded-lg p-6 mb-6">
 		<h2 class="text-lg font-semibold text-gray-800 mb-4">Crear Nuevo Costo Semestral</h2>
 		<form id="costoSemestralForm" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-			<input type="hidden" id="usuario_id" name="id_usuario" value="{{ auth()->user()->id_usuario }}">
+			<input type="hidden" id="usuario_id" name="id_usuario" value="{{ session('usuario_autenticado')['id'] }}">
 			<div>
 				<label for="pensum_costo" class="block text-sm font-medium text-gray-700 mb-1">Pensum</label>
 				<select id="pensum_costo" name="cod_pensum" class="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>

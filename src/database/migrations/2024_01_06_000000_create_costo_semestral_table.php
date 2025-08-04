@@ -19,7 +19,7 @@ return new class extends Migration
 			$table->bigInteger('cod_inscrip')->nullable();
 			$table->string('semestre', 30);
 			$table->decimal('monto_semestre', 10, 2);
-			$table->bigInteger('id_usuario');
+			$table->unsignedBigInteger('id_usuario');
 			$table->timestamps();
 			
 			$table->primary(['id_costo_semestral', 'cod_pensum', 'gestion']);
