@@ -337,7 +337,7 @@ body {
   height: 4rem;
   width: 4rem;
   border-radius: 0.5rem;
-  background-color: var(--primary-color);
+  background-color: whitesmoke;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -347,6 +347,12 @@ body {
 
 .login-logo-icon {
   font-size: 1.875rem;
+}
+.login-logo-image {
+  width: 80px;       /* Ajusta el tamaño según necesites */
+  height: auto;      /* Mantiene la proporción */
+  display: block;    /* Elimina espacios no deseados */
+  margin: 0 auto;    /* Centra la imagen */
 }
 
 .login-title {
@@ -424,6 +430,15 @@ body {
 .login-button:hover {
   background-color: var(--primary-dark);
 }
+.login-footer{
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  margin-top: 2rem;
+  margin-bottom: 0.25rem;
+}
+
 
 /* Estilos para la paginación */
 .pagination {

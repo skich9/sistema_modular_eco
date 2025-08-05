@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Iniciar Sesión - CETA Pay')
+@section('title', 'Iniciar Sesión - Sistema de Cobros CETA')
 
 @section('content')
 <div class="login-container">
@@ -9,11 +9,11 @@
 		<!-- Header -->
 		<div class="login-header">
 			<div class="login-logo">
-				<i class="fas fa-dollar-sign login-logo-icon"></i>
+				<img src="{{ asset('images/logo-ceta.png') }}" alt="Logo CETA" class="login-logo-image">
 			</div>
 			
-			<h2 class="login-title">CETA Pay</h2>
-			<p class="login-subtitle">Sistema de Cobros Inteligente</p>
+			<h2 class="login-title">Sistema de Cobros</h2>
+			<p class="login-subtitle">Instituto Tecnológico CETA</p>
 		</div>
 
 			<!-- Login Form -->
@@ -32,7 +32,7 @@
 				<!-- Email/Usuario -->
 				<div class="login-form-group">
 					<label for="email" class="login-label">
-						Email
+						Usuario
 					</label>
 					<input 
 						id="email" 
