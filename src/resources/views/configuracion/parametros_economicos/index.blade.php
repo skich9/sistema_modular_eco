@@ -6,7 +6,10 @@
 
 <div class="container mx-auto px-4 py-6">
 	<div class="flex justify-between items-center mb-6">
-		<h1 class="text-2xl font-bold">Parámetros Económicos</h1>
+		<div>
+			<h1 class="text-2xl font-bold text-gray-800">Parámetros Económicos</h1>
+			<p class="text-sm text-gray-500">Administración de parámetros del sistema</p>
+		</div>
 		<button type="button" onclick="openCreateModal()" class="btn-primary">
 			<i class="fas fa-plus mr-2"></i> Nuevo Parámetro
 		</button>
@@ -34,6 +37,17 @@
 
 	<!-- Tabla de parámetros económicos -->
 	<div class="card">
+		<div class="card-header flex justify-between items-center">
+			<h3 class="text-lg font-medium">Lista de Parámetros</h3>
+			<div class="flex space-x-2">
+				<div class="relative">
+					<input type="text" placeholder="Buscar parámetro..." class="form-input py-1 pl-8 pr-2 text-sm" id="searchInput">
+					<div class="absolute inset-y-0 left-0 flex items-center pl-2">
+						<i class="fas fa-search text-gray-400"></i>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="table-container">
 			<table class="table">
 				<thead>
@@ -46,9 +60,9 @@
 						<th>Acciones</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="parametrosTable">
 				@forelse($parametros as $parametro)
-				<tr>
+				<tr class="parametro-row">
 					<td>{{ $parametro->id_parametro_economico }}</td>
 					<td>{{ $parametro->nombre }}</td>
 					<td>{{ number_format($parametro->valor, 2) }}</td>
@@ -155,6 +169,23 @@
 @section('scripts')
 <script>
 	let deleteId = null;
+
+	// Funcionalidad de búsqueda
+	document.getElementById('searchInput').addEventListener('keyup', function() {
+		const searchTerm = this.value.toLowerCase();
+		const rows = document.querySelectorAll('#parametrosTable .parametro-row');
+		
+		rows.forEach(row => {
+			const nombre = row.cells[1].textContent.toLowerCase();
+			const descripcion = row.cells[3].textContent.toLowerCase();
+			
+			if (nombre.includes(searchTerm) || descripcion.includes(searchTerm)) {
+				row.style.display = '';
+			} else {
+				row.style.display = 'none';
+			}
+		});
+	});
 
 	function openCreateModal() {
 		document.getElementById('modal-title').textContent = 'Crear Parámetro Económico';

@@ -269,15 +269,8 @@
 	let isEditing = false;
 	let editingUserId = null;
 
-	function toggleDropdown() {
-		const dropdown = document.getElementById('userDropdown');
-		dropdown.classList.toggle('show');
-	}
-
-	function toggleConfigMenu() {
-		const dropdown = document.getElementById('configDropdown');
-		dropdown.classList.toggle('show');
-	}
+	// Estas funciones ya están definidas en el componente de navegación
+	// No es necesario redefinirlas aquí
 
 	function openCreateModal() {
 		isEditing = false;
@@ -421,17 +414,8 @@
 			}
 		});
 		
-		// Inicializar eventos para cerrar dropdowns
-		document.addEventListener('click', function(event) {
-			const userDropdown = document.getElementById('userDropdown');
-			const configDropdown = document.getElementById('configDropdown');
-			const button = event.target.closest('button');
-			
-			if (userDropdown && configDropdown && (!button || (!button.onclick && !button.getAttribute('onclick')))) {
-				userDropdown.classList.remove('show');
-				configDropdown.classList.remove('show');
-			}
-		});
+		// No es necesario inicializar eventos para cerrar dropdowns
+		// Ya están manejados por el componente de navegación
 	});
 </script>
 @endpush

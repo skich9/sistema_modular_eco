@@ -1,21 +1,20 @@
 @extends('layouts.app')
 
-@section('title', 'Iniciar Sesión - Sistema de Cobros CETA')
+@section('title', 'Iniciar Sesión - CETA Pay')
 
 @section('content')
 <div class="login-container">
-	<div class="login-wrapper">
-		<!-- Card Container -->
-		<div class="login-card">
-			<!-- Header -->
-			<div class="login-header">
-				<div class="login-logo">
-					<img src="{{ asset('images/logo-ceta.png') }}" alt="Logo CETA">
-				</div>
-				
-				<h2 class="login-title">Sistema de Cobros</h2>
-				<p class="login-subtitle">Instituto Tecnológico CETA</p>
+	<!-- Card Container -->
+	<div class="login-card">
+		<!-- Header -->
+		<div class="login-header">
+			<div class="login-logo">
+				<i class="fas fa-dollar-sign login-logo-icon"></i>
 			</div>
+			
+			<h2 class="login-title">CETA Pay</h2>
+			<p class="login-subtitle">Sistema de Cobros Inteligente</p>
+		</div>
 
 			<!-- Login Form -->
 			<form class="login-form" action="{{ route('login.post') }}" method="POST">
@@ -31,49 +30,48 @@
 				@endif
 
 				<!-- Email/Usuario -->
-				<div class="form-group">
-					<label for="email" class="form-label">
-						Usuario o Cédula
+				<div class="login-form-group">
+					<label for="email" class="login-label">
+						Email
 					</label>
-					<div class="input-icon">
-						<i class="fas fa-user icon-left"></i>
-						<input 
-							id="email" 
-							name="email" 
-							type="text" 
-							required 
-							class="form-input"
-							placeholder="Ingresa tu usuario o cédula"
-							value="{{ old('email') }}"
-						>
-					</div>
+					<input 
+						id="email" 
+						name="email" 
+						type="text" 
+						required 
+						class="login-input"
+						placeholder="admin@ceta.edu.bo"
+						value="{{ old('email') }}"
+					>
 				</div>
 
 				<!-- Contraseña -->
-				<div class="form-group">
-					<label for="password" class="form-label">
+				<div class="login-form-group">
+					<label for="password" class="login-label">
 						Contraseña
 					</label>
-					<div class="input-icon">
-						<i class="fas fa-lock icon-left"></i>
+					<div class="login-password-container">
 						<input 
 							id="password" 
 							name="password" 
 							type="password" 
 							required 
-							class="form-input"
-							placeholder="Ingresa tu contraseña"
+							class="login-input"
+							placeholder="********"
 						>
-						<button type="button" onclick="togglePassword()" class="icon-right">
-							<i id="toggleIcon" class="fas fa-eye"></i>
+						<button 
+							type="button" 
+							class="login-password-toggle" 
+							onclick="togglePasswordVisibility()"
+						>
+							<i class="fas fa-eye"></i>
 						</button>
 					</div>
 				</div>
 
-				<!-- Botón de Login -->
-				<div class="form-actions">
-					<button type="submit" class="btn-primary btn-block">
-						<i class="fas fa-sign-in-alt mr-2"></i>
+				<!-- Botón de Iniciar Sesión -->
+				<div>
+					<button type="submit" class="login-button">
 						Iniciar Sesión
 					</button>
 				</div>

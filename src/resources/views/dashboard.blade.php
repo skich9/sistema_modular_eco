@@ -169,29 +169,5 @@
 	</div>
 </div>
 
-@push('scripts')
-<script>
-	function toggleDropdown() {
-		const dropdown = document.getElementById('userDropdown');
-		dropdown.classList.toggle('hidden');
-	}
 
-	function toggleConfigMenu() {
-		const dropdown = document.getElementById('configDropdown');
-		dropdown.classList.toggle('hidden');
-	}
-
-	// Close dropdowns when clicking outside
-	document.addEventListener('click', function(event) {
-		const userDropdown = document.getElementById('userDropdown');
-		const configDropdown = document.getElementById('configDropdown');
-		const button = event.target.closest('button');
-		
-		if (!button || (!button.onclick && !button.getAttribute('onclick'))) {
-			userDropdown.classList.add('hidden');
-			configDropdown.classList.add('hidden');
-		}
-	});
-</script>
-@endpush
 @endsection
