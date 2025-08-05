@@ -44,7 +44,7 @@ body {
   height: 2.5rem;
   width: 2.5rem;
   border-radius: 0.5rem;
-  background-color: var(--primary-color);
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;

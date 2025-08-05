@@ -5,7 +5,7 @@
 			<div class="flex items-center">
 				<a href="{{ route('dashboard') }}" class="nav-logo">
 					<div class="nav-logo-icon">
-						<i class="fas fa-dollar-sign text-xl"></i>
+					<img src="{{ asset('images/logo-ceta.png') }}" alt="Logo CETA" class="login-logo-image">
 					</div>
 					<div class="nav-logo-text">
 						<span class="nav-logo-title">CETA Pay</span>
