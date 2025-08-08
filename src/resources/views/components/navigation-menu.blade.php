@@ -8,8 +8,8 @@
 					<img src="{{ asset('images/logo-ceta.png') }}" alt="Logo CETA" class="login-logo-image">
 					</div>
 					<div class="nav-logo-text">
-						<span class="nav-logo-title">CETA Pay</span>
-						<p class="nav-logo-subtitle">Sistema de Cobros Inteligente</p>
+						<span class="nav-logo-title">Sistema de Cobros</span>
+						<p class="nav-logo-subtitle">Instituto Tecnológico CETA</p>
 					</div>
 				</a>
 			</div>
