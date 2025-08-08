@@ -265,157 +265,18 @@
 </div>
 
 @push('scripts')
-<script>
-	let isEditing = false;
-	let editingUserId = null;
-
-	// Estas funciones ya están definidas en el componente de navegación
-	// No es necesario redefinirlas aquí
-
-	function openCreateModal() {
-		isEditing = false;
-		document.getElementById('modalTitle').textContent = 'Crear Usuario';
-		document.getElementById('userForm').action = '{{ route("usuarios.store") }}';
-		document.getElementById('methodField').innerHTML = '';
-		document.getElementById('passwordField').style.display = 'block';
-		document.getElementById('contrasenia').required = true;
-		
-		// Limpiar formulario
-		document.getElementById('userForm').reset();
-		document.getElementById('estado').checked = true;
-		
-		const modal = document.getElementById('userModal');
-		modal.classList.add('show');
-		modal.style.display = 'block';
-	}
-
-	function editUser(userId) {
-		isEditing = true;
-		editingUserId = userId;
-		document.getElementById('modalTitle').textContent = 'Editar Usuario';
-		document.getElementById('userForm').action = `/usuarios/${userId}`;
-		document.getElementById('methodField').innerHTML = '@method("PUT")';
-		document.getElementById('passwordField').style.display = 'none';
-		document.getElementById('contrasenia').required = false;
-		
-		// Cargar los datos del usuario via AJAX
-		fetch(`/usuarios/${userId}/edit`)
-			.then(response => response.json())
-			.then(data => {
-				if (data.success) {
-					const usuario = data.data;
-					document.getElementById('nickname').value = usuario.nickname;
-					document.getElementById('nombre').value = usuario.nombre;
-					document.getElementById('ap_paterno').value = usuario.ap_paterno;
-					document.getElementById('ap_materno').value = usuario.ap_materno || '';
-					document.getElementById('ci').value = usuario.ci;
-					document.getElementById('id_rol').value = usuario.id_rol;
-					document.getElementById('estado').checked = usuario.estado;
-					
-					const modal = document.getElementById('userModal');
-					modal.classList.add('show');
-					modal.style.display = 'block';
-				} else {
-					showNotification('Error al cargar los datos del usuario', 'error');
-				}
-			})
-			.catch(error => {
-				console.error('Error:', error);
-				showNotification('Error al cargar los datos del usuario', 'error');
-			});
-	}
-
-	function closeModal() {
-		const modal = document.getElementById('userModal');
-		modal.classList.remove('show');
-		modal.style.display = 'none';
-	}
-
-	function toggleUserStatus(userId, status) {
-		fetch(`/usuarios/${userId}/estado`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-			},
-			body: JSON.stringify({ estado: status })
-		})
-		.then(response => response.json())
-		.then(data => {
-			if (!data.success) {
-				showNotification('Error al cambiar el estado del usuario', 'error');
-				// Revertir checkbox
-				event.target.checked = !status;
-			} else {
-				// Actualizar la etiqueta de estado
-				const statusLabel = document.querySelector(`tr[data-id="${userId}"] .toggle-label`);
-				if (statusLabel) {
-					statusLabel.textContent = status ? 'Activo' : 'Inactivo';
-					statusLabel.className = `toggle-label ${status ? 'active' : 'inactive'}`;
-				}
-				showNotification('Estado actualizado correctamente', 'success');
-			}
-		})
-		.catch(error => {
-			console.error('Error:', error);
-			showNotification('Error al cambiar el estado del usuario', 'error');
-			event.target.checked = !status;
-		});
-	}
-
-	function showNotification(message, type = 'success') {
-		const alertDiv = document.createElement('div');
-		alertDiv.className = `alert alert-${type} mb-4 alert-auto-hide`;
-		
-		const alertContent = document.createElement('div');
-		alertContent.className = 'alert-content';
-		
-		const icon = document.createElement('i');
-		icon.className = type === 'success' ? 'fas fa-check-circle mr-2' : 'fas fa-exclamation-triangle mr-2';
-		
-		const span = document.createElement('span');
-		span.textContent = message;
-		
-		alertContent.appendChild(icon);
-		alertContent.appendChild(span);
-		alertDiv.appendChild(alertContent);
-		
-		const container = document.querySelector('.content-container');
-		container.insertBefore(alertDiv, container.querySelector('.card:nth-child(2)'));
-		
-		setTimeout(() => {
-			alertDiv.remove();
-		}, 5000);
-	}
-
-	// Inicialización cuando el DOM está listo
+<script type="module">
+	import { initUsuarios, openCreateModal, editUser, closeModal, toggleUserStatus } from '{{ asset("js/configuracion/usuarios.js") }}';
+	
+	// Exponer funciones al ámbito global para uso en atributos HTML
+	window.openCreateModal = openCreateModal;
+	window.editUser = editUser;
+	window.closeModal = closeModal;
+	window.toggleUserStatus = toggleUserStatus;
+	
+	// Inicializar módulo de usuarios cuando el DOM esté listo
 	document.addEventListener('DOMContentLoaded', function() {
-		// Cerrar modal al hacer clic fuera
-		const modal = document.getElementById('userModal');
-		window.onclick = function(event) {
-			if (event.target == modal) {
-				closeModal();
-			}
-		};
-		
-		// Asegurar que el modal esté oculto inicialmente
-		modal.style.display = 'none';
-		
-		// Agregar data-id a las filas para facilitar la actualización de estado
-		document.querySelectorAll('tbody tr').forEach(tr => {
-			if (!tr.hasAttribute('data-id')) {
-				const userId = tr.querySelector('button[onclick^="editUser"]');
-				if (userId) {
-					const match = userId.getAttribute('onclick').match(/editUser\((\d+)\)/);
-					if (match && match[1]) {
-						tr.setAttribute('data-id', match[1]);
-					}
-				}
-			}
-		});
-		
-		// No es necesario inicializar eventos para cerrar dropdowns
-		// Ya están manejados por el componente de navegación
+		initUsuarios();
 	});
 </script>
 @endpush

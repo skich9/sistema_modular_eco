@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Script multiplataforma para ejecutar Vite en Docker
+# Funciona tanto en Linux como en Windows (con Git Bash o WSL)
+
+# Función para mostrar ayuda
+show_help() {
+    echo "Uso: ./vite <comando>"
+    echo ""
+    echo "Comandos disponibles:"
+    echo "  dev     - Inicia el servidor de desarrollo Vite"
+    echo "  build   - Compila los assets para producción"
+    echo "  install - Instala las dependencias de Node.js"
+    echo "  help    - Muestra esta ayuda"
+}
+
+# Verificar si Docker está en ejecución
+if ! docker info > /dev/null 2>&1; then
+    echo "Error: Docker no está en ejecución o no está instalado."
+    echo "Por favor, inicia Docker e intenta nuevamente."
+    exit 1
+fi
+
+# Verificar si el contenedor está en ejecución
+if ! docker ps | grep -q laravel_node; then
+    echo "Iniciando el contenedor de Node.js..."
+    docker-compose up -d node
+fi
+
+# Ejecutar el comando especificado
+case "$1" in
+    dev)
+        echo "Iniciando servidor de desarrollo Vite..."
+        docker-compose exec node sh -c "cd /var/www/html && npm run dev -- --host"
+        ;;
+    build)
+        echo "Compilando assets con Vite..."
+        docker-compose exec node sh -c "cd /var/www/html && npm run build"
+        ;;
+    install)
+        echo "Instalando dependencias de Node.js..."
+        docker-compose exec node sh -c "cd /var/www/html && npm install"
+        ;;
+    help|--help|-h)
+        show_help
+        ;;
+    *)
+        echo "Comando desconocido: $1"
+        show_help
+        exit 1
+        ;;
+esac

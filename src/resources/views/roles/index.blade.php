@@ -16,7 +16,7 @@
 						<h1 class="page-title">Gestión de Roles</h1>
 						<p class="page-subtitle">Administra los roles del sistema</p>
 					</div>
-					<button onclick="openModal('create')" class="btn-primary">
+					<button onclick="openModal()" class="btn-primary">
 						<i class="fas fa-plus mr-2"></i>
 						Nuevo Rol
 					</button>
@@ -147,134 +147,6 @@
 	</div>
 </div>
 
-<script>
-function openModal(mode, rolId = null) {
-	const modal = document.getElementById('rolModal');
-	const form = document.getElementById('rolForm');
-	const title = document.getElementById('modalTitle');
-	const methodField = document.getElementById('methodField');
-	
-	if (mode === 'create') {
-		title.textContent = 'Nuevo Rol';
-		form.action = '{{ route("roles.store") }}';
-		methodField.innerHTML = '';
-		form.reset();
-		document.getElementById('estado').checked = true;
-	}
-	
-	modal.classList.add('show');
-	modal.style.display = 'block';
-}
-
-function closeModal() {
-	const modal = document.getElementById('rolModal');
-	modal.classList.remove('show');
-	modal.style.display = 'none';
-}
-
-function editRol(id) {
-	fetch(`/roles/${id}`)
-		.then(response => response.json())
-		.then(data => {
-			if (data.success) {
-				const rol = data.data;
-				const modal = document.getElementById('rolModal');
-				const form = document.getElementById('rolForm');
-				const title = document.getElementById('modalTitle');
-				const methodField = document.getElementById('methodField');
-				
-				title.textContent = 'Editar Rol';
-				form.action = `/roles/${id}`;
-				methodField.innerHTML = '@method("PUT")';
-				
-				document.getElementById('nombre').value = rol.nombre;
-				document.getElementById('descripcion').value = rol.descripcion || '';
-				document.getElementById('estado').checked = rol.estado;
-				
-				modal.classList.add('show');
-				modal.style.display = 'block';
-			}
-		})
-		.catch(error => {
-			console.error('Error:', error);
-			showNotification('Error al cargar los datos', 'error');
-		});
-}
-
-function deleteRol(id) {
-	if (confirm('¿Estás seguro de que deseas eliminar este rol?')) {
-		const form = document.createElement('form');
-		form.method = 'POST';
-		form.action = `/roles/${id}`;
-		form.innerHTML = `
-			@csrf
-			@method('DELETE')
-		`;
-		document.body.appendChild(form);
-		form.submit();
-	}
-}
-
-function toggleStatus(id, status, type) {
-	fetch(`/${type}s/${id}/toggle-status`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			'X-CSRF-TOKEN': '{{ csrf_token() }}'
-		},
-		body: JSON.stringify({ estado: status })
-	})
-	.then(response => response.json())
-	.then(data => {
-		if (!data.success) {
-			location.reload();
-		} else {
-			const statusLabel = document.querySelector(`tr[data-id="${id}"] .toggle-label`);
-			if (statusLabel) {
-				statusLabel.textContent = status ? 'Activo' : 'Inactivo';
-				statusLabel.className = `toggle-label ${status ? 'active' : 'inactive'}`;
-			}
-		}
-	})
-	.catch(error => {
-		console.error('Error:', error);
-		showNotification('Error al cambiar el estado', 'error');
-	});
-}
-
-function showNotification(message, type = 'success') {
-	const alertDiv = document.createElement('div');
-	alertDiv.className = `alert alert-${type} mb-4`;
-	alertDiv.textContent = message;
-	
-	const container = document.querySelector('.content-wrapper');
-	container.insertBefore(alertDiv, container.querySelector('.card:nth-child(2)'));
-	
-	setTimeout(() => {
-		alertDiv.remove();
-	}, 5000);
-}
-
-// Inicialización cuando el DOM está listo
-document.addEventListener('DOMContentLoaded', function() {
-	// Cerrar modal al hacer clic fuera
-	const modal = document.getElementById('rolModal');
-	window.onclick = function(event) {
-		if (event.target == modal) {
-			closeModal();
-		}
-	};
-	
-	// Asegurar que el modal esté oculto inicialmente
-	modal.style.display = 'none';
-	
-	// Agregar data-id a las filas para facilitar la actualización de estado
-	document.querySelectorAll('tbody tr').forEach(tr => {
-		const id = tr.querySelector('td:first-child').textContent.trim();
-		if (id && !isNaN(id)) {
-			tr.setAttribute('data-id', id);
-		}
-	});
-});
-</script>
+@section('scripts')
+@vite('resources/js/configuracion/roles.js')
 @endsection
