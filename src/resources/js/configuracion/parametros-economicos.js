@@ -146,7 +146,7 @@ function setupModalEvents() {
  * Abre el modal para crear un nuevo parámetro
  * @param {string} tipo - Tipo de parámetro: 'sistema', 'economico', 'item'
  */
-export function openCreateModal(tipo = 'economico') {
+function openCreateModal(tipo = 'economico') {
 	let titulo = 'Crear Parámetro Económico';
 	
 	switch(tipo) {
@@ -169,7 +169,7 @@ export function openCreateModal(tipo = 'economico') {
  * Abre el modal para editar un parámetro existente
  * @param {number} id - ID del parámetro a editar
  */
-export function openEditModal(id) {
+function openEditModal(id) {
 	document.getElementById('modal-title').textContent = 'Editar Parámetro Económico';
 	document.getElementById('paramForm').reset();
 	document.getElementById('param_id').value = id;
@@ -198,7 +198,7 @@ export function openEditModal(id) {
 /**
  * Cierra el modal de parámetros
  */
-export function closeParamModal() {
+function closeParamModal() {
 	closeModal('paramModal');
 }
 
@@ -206,7 +206,7 @@ export function closeParamModal() {
  * Abre el modal de confirmación para eliminar un parámetro
  * @param {number} id - ID del parámetro a eliminar
  */
-export function confirmDelete(id) {
+function confirmDelete(id) {
 	deleteId = id;
 	openModal('deleteModal');
 }
@@ -214,7 +214,7 @@ export function confirmDelete(id) {
 /**
  * Cierra el modal de confirmación para eliminar
  */
-export function closeDeleteModal() {
+function closeDeleteModal() {
 	closeModal('deleteModal');
 	deleteId = null;
 }
@@ -223,7 +223,7 @@ export function closeDeleteModal() {
  * Cambia el estado de un parámetro (activo/inactivo)
  * @param {number} id - ID del parámetro
  */
-export function toggleStatus(id) {
+function toggleStatus(id) {
 	try {
 		const token = getCsrfToken();
 		
@@ -359,6 +359,65 @@ function setupDeleteButton() {
 		});
 	}
 }
+
+/**
+ * Funciones auxiliares para modales y alertas
+ */
+
+/**
+ * Abre un modal por su ID
+ * @param {string} modalId - ID del modal a abrir
+ */
+function openModal(modalId) {
+	const modal = document.getElementById(modalId);
+	if (modal) {
+		modal.classList.remove('hidden');
+		document.body.style.overflow = 'hidden';
+	}
+}
+
+/**
+ * Cierra un modal por su ID
+ * @param {string} modalId - ID del modal a cerrar
+ */
+function closeModal(modalId) {
+	const modal = document.getElementById(modalId);
+	if (modal) {
+		modal.classList.add('hidden');
+		document.body.style.overflow = 'auto';
+	}
+}
+
+/**
+ * Muestra una alerta
+ * @param {string} message - Mensaje a mostrar
+ * @param {string} type - Tipo de alerta (success, danger, warning, info)
+ */
+function showAlert(message, type = 'info') {
+	console.log(`Alert [${type}]: ${message}`);
+	// Aquí puedes implementar un sistema de alertas más sofisticado
+	alert(message);
+}
+
+/**
+ * Obtiene el token CSRF del meta tag
+ * @returns {string} Token CSRF
+ */
+function getCsrfToken() {
+	const token = document.querySelector('meta[name="csrf-token"]');
+	if (!token) {
+		throw new Error('Token CSRF no encontrado. Asegúrate de que el meta tag csrf-token esté presente.');
+	}
+	return token.getAttribute('content');
+}
+
+// Exponer funciones globalmente para uso con onclick en HTML
+window.openCreateModal = openCreateModal;
+window.openEditModal = openEditModal;
+window.confirmDelete = confirmDelete;
+window.toggleStatus = toggleStatus;
+window.closeModal = closeParamModal;
+window.closeDeleteModal = closeDeleteModal;
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', init);

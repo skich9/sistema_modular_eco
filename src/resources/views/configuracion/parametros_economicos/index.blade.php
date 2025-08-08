@@ -113,10 +113,10 @@
 							<td>Práctica Industrial</td>
 							<td>
 								<div class="action-buttons">
-									<button type="button" class="btn-icon btn-warning" title="Editar">
+									<button type="button" onclick="openEditModalSistema(1)" class="btn-icon btn-warning" title="Editar">
 										<i class="fas fa-edit"></i>
 									</button>
-									<button type="button" class="btn-icon btn-danger" title="Eliminar">
+									<button type="button" onclick="confirmDelete(1)" class="btn-icon btn-danger" title="Eliminar">
 										<i class="fas fa-trash-alt"></i>
 									</button>
 								</div>
@@ -131,10 +131,10 @@
 							<td>Cobros Mensualidades</td>
 							<td>
 								<div class="action-buttons">
-									<button type="button" class="btn-icon btn-warning" title="Editar">
+									<button type="button" onclick="openEditModalSistema(2)" class="btn-icon btn-warning" title="Editar">
 										<i class="fas fa-edit"></i>
 									</button>
-									<button type="button" class="btn-icon btn-danger" title="Eliminar">
+									<button type="button" onclick="confirmDelete(2)" class="btn-icon btn-danger" title="Eliminar">
 										<i class="fas fa-trash-alt"></i>
 									</button>
 								</div>
@@ -149,10 +149,10 @@
 							<td>Modificación de Notas</td>
 							<td>
 								<div class="action-buttons">
-									<button type="button" class="btn-icon btn-warning" title="Editar">
+									<button type="button" onclick="openEditModalSistema(3)" class="btn-icon btn-warning" title="Editar">
 										<i class="fas fa-edit"></i>
 									</button>
-									<button type="button" class="btn-icon btn-danger" title="Eliminar">
+									<button type="button" onclick="confirmDelete(3)" class="btn-icon btn-danger" title="Eliminar">
 										<i class="fas fa-trash-alt"></i>
 									</button>
 								</div>
@@ -279,10 +279,10 @@
 							<td><span class="badge badge-success">Activo</span></td>
 							<td>
 								<div class="action-buttons">
-									<button type="button" class="btn-icon btn-warning" title="Editar">
+									<button type="button" onclick="openEditModalItem(1)" class="btn-icon btn-warning" title="Editar">
 										<i class="fas fa-edit"></i>
 									</button>
-									<button type="button" class="btn-icon btn-danger" title="Eliminar">
+									<button type="button" onclick="confirmDelete(1)" class="btn-icon btn-danger" title="Eliminar">
 										<i class="fas fa-trash-alt"></i>
 									</button>
 								</div>
@@ -297,10 +297,10 @@
 							<td><span class="badge badge-success">Activo</span></td>
 							<td>
 								<div class="action-buttons">
-									<button type="button" class="btn-icon btn-warning" title="Editar">
+									<button type="button" onclick="openEditModalItem(2)" class="btn-icon btn-warning" title="Editar">
 										<i class="fas fa-edit"></i>
 									</button>
-									<button type="button" class="btn-icon btn-danger" title="Eliminar">
+									<button type="button" onclick="confirmDelete(2)" class="btn-icon btn-danger" title="Eliminar">
 										<i class="fas fa-trash-alt"></i>
 									</button>
 								</div>
@@ -315,10 +315,10 @@
 							<td><span class="badge badge-success">Activo</span></td>
 							<td>
 								<div class="action-buttons">
-									<button type="button" class="btn-icon btn-warning" title="Editar">
+									<button type="button" onclick="openEditModalItem(3)" class="btn-icon btn-warning" title="Editar">
 										<i class="fas fa-edit"></i>
 									</button>
-									<button type="button" class="btn-icon btn-danger" title="Eliminar">
+									<button type="button" onclick="confirmDelete(3)" class="btn-icon btn-danger" title="Eliminar">
 										<i class="fas fa-trash-alt"></i>
 									</button>
 								</div>
@@ -333,10 +333,10 @@
 							<td><span class="badge badge-success">Activo</span></td>
 							<td>
 								<div class="action-buttons">
-									<button type="button" class="btn-icon btn-warning" title="Editar">
+									<button type="button" onclick="openEditModalItem(4)" class="btn-icon btn-warning" title="Editar">
 										<i class="fas fa-edit"></i>
 									</button>
-									<button type="button" class="btn-icon btn-danger" title="Eliminar">
+									<button type="button" onclick="confirmDelete(4)" class="btn-icon btn-danger" title="Eliminar">
 										<i class="fas fa-trash-alt"></i>
 									</button>
 								</div>
@@ -361,18 +361,72 @@
 				<form id="paramForm">
 					<input type="hidden" id="param_id" name="param_id">
 					<input type="hidden" id="param_tipo" name="param_tipo" value="economico">
-					<div class="form-group">
-						<label for="nombre" class="form-label">Nombre</label>
-						<input type="text" id="nombre" name="nombre" class="form-input" required>
+					
+					<!-- Campos para Parámetros Económicos -->
+					<div id="campos-economicos" class="campos-tipo">
+						<div class="form-group">
+							<label for="nombre" class="form-label">Nombre</label>
+							<input type="text" id="nombre" name="nombre" class="form-input" required>
+						</div>
+						<div class="form-group">
+							<label for="valor" class="form-label">Valor</label>
+							<input type="number" id="valor" name="valor" step="0.01" min="0" class="form-input" required>
+						</div>
+						<div class="form-group">
+							<label for="descripcion" class="form-label">Descripción</label>
+							<input type="text" id="descripcion" name="descripcion" class="form-input" required>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="valor" class="form-label">Valor</label>
-						<input type="number" id="valor" name="valor" step="0.01" min="0" class="form-input" required>
+					
+					<!-- Campos para Parámetros del Sistema -->
+					<div id="campos-sistema" class="campos-tipo hidden">
+						<div class="form-group">
+							<label for="pensum" class="form-label">Pensum</label>
+							<input type="text" id="pensum" name="pensum" class="form-input" required>
+						</div>
+						<div class="form-group">
+							<label for="parametro" class="form-label">Parámetro</label>
+							<input type="text" id="parametro" name="parametro" class="form-input" required>
+						</div>
+						<div class="form-group">
+							<label for="valor_sistema" class="form-label">Valor</label>
+							<input type="text" id="valor_sistema" name="valor_sistema" class="form-input" required>
+						</div>
+						<div class="form-group">
+							<label for="modulo" class="form-label">Módulo</label>
+							<input type="text" id="modulo" name="modulo" class="form-input" required>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="descripcion" class="form-label">Descripción</label>
-						<input type="text" id="descripcion" name="descripcion" class="form-input" required>
+					
+					<!-- Campos para Items de Cobro -->
+					<div id="campos-items" class="campos-tipo hidden">
+						<div class="form-group">
+							<label for="concepto" class="form-label">Concepto</label>
+							<input type="text" id="concepto" name="concepto" class="form-input" required>
+						</div>
+						<div class="form-group">
+							<label for="monto" class="form-label">Monto</label>
+							<input type="number" id="monto" name="monto" step="0.01" min="0" class="form-input" required>
+						</div>
+						<div class="form-group">
+							<label for="tipo_item" class="form-label">Tipo</label>
+							<select id="tipo_item" name="tipo_item" class="form-input">
+								<option value="Fijo">Fijo</option>
+								<option value="Porcentaje">Porcentaje</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="categoria" class="form-label">Categoría</label>
+							<select id="categoria" name="categoria" class="form-input">
+								<option value="mensualidades">Mensualidades</option>
+								<option value="examenes">Exámenes</option>
+								<option value="certificados">Certificados</option>
+								<option value="intereses">Intereses</option>
+							</select>
+						</div>
 					</div>
+					
+					<!-- Campo Estado (común para todos) -->
 					<div class="form-group">
 						<label for="estado" class="form-label">Estado</label>
 						<select id="estado" name="estado" class="form-input">
@@ -380,6 +434,7 @@
 							<option value="0">Inactivo</option>
 						</select>
 					</div>
+					
 					<div class="modal-footer">
 						<button type="button" onclick="closeModal()" class="btn-secondary">
 							Cancelar
@@ -420,6 +475,413 @@
 @endsection
 
 @push('scripts')
-<!-- Script externo de parámetros económicos con Vite -->
-@vite('resources/js/configuracion/parametros-economicos.js')
+<script>
+console.log('Script local de parámetros económicos cargado');
+
+// Variables globales
+let deleteId = null;
+
+// Funciones para modales
+function openModal(modalId) {
+	console.log('Abriendo modal:', modalId);
+	const modal = document.getElementById(modalId);
+	if (modal) {
+		modal.classList.remove('hidden');
+	} else {
+		console.error('Modal no encontrado:', modalId);
+	}
+}
+
+function closeModal(modalId = null) {
+	console.log('Cerrando modal:', modalId);
+	if (modalId) {
+		const modal = document.getElementById(modalId);
+		if (modal) {
+			modal.classList.add('hidden');
+		}
+	} else {
+		// Cerrar todos los modales
+		document.querySelectorAll('.modal-backdrop').forEach(modal => {
+			modal.classList.add('hidden');
+		});
+	}
+}
+
+function closeDeleteModal() {
+	console.log('Cerrando modal de eliminación');
+	closeModal('deleteModal');
+	deleteId = null;
+}
+
+function showAlert(message, type = 'info') {
+	console.log('Mostrando alerta:', message, type);
+	alert(message); // Por ahora usamos alert simple
+}
+
+function getCsrfToken() {
+	const token = document.querySelector('meta[name="csrf-token"]');
+	if (!token) {
+		throw new Error('Token CSRF no encontrado');
+	}
+	return token.getAttribute('content');
+}
+
+// Función para mostrar campos según tipo de parámetro
+function showFieldsForType(tipo) {
+	console.log('Mostrando campos para tipo:', tipo);
+	
+	// Ocultar todos los grupos de campos
+	const camposEconomicos = document.getElementById('campos-economicos');
+	const camposSistema = document.getElementById('campos-sistema');
+	const camposItems = document.getElementById('campos-items');
+	
+	if (camposEconomicos) camposEconomicos.classList.add('hidden');
+	if (camposSistema) camposSistema.classList.add('hidden');
+	if (camposItems) camposItems.classList.add('hidden');
+	
+	// Mostrar solo el grupo correspondiente
+	switch(tipo) {
+		case 'sistema':
+			if (camposSistema) camposSistema.classList.remove('hidden');
+			break;
+		case 'item':
+			if (camposItems) camposItems.classList.remove('hidden');
+			break;
+		case 'economico':
+		default:
+			if (camposEconomicos) camposEconomicos.classList.remove('hidden');
+			break;
+	}
+}
+
+// Funciones principales para botones
+function openCreateModal(tipo = 'economico') {
+	console.log('Abriendo modal de creación para tipo:', tipo);
+	let titulo = 'Crear Parámetro Económico';
+	switch(tipo) {
+		case 'sistema':
+			titulo = 'Crear Parámetro del Sistema';
+			break;
+		case 'item':
+			titulo = 'Crear Item de Cobro';
+			break;
+	}
+	
+	const modalTitle = document.getElementById('modal-title');
+	const paramForm = document.getElementById('paramForm');
+	const paramId = document.getElementById('param_id');
+	const paramTipo = document.getElementById('param_tipo');
+	
+	if (modalTitle) modalTitle.textContent = titulo;
+	if (paramForm) paramForm.reset();
+	if (paramId) paramId.value = '';
+	if (paramTipo) paramTipo.value = tipo;
+	
+	// Mostrar campos apropiados para el tipo
+	showFieldsForType(tipo);
+	
+	openModal('paramModal');
+}
+
+// Funciones específicas para cada tipo de parámetro
+function openEditModalSistema(id) {
+	console.log('Abriendo modal de edición para Parámetro del Sistema ID:', id);
+	const modalTitle = document.getElementById('modal-title');
+	const paramForm = document.getElementById('paramForm');
+	const paramId = document.getElementById('param_id');
+	const paramTipo = document.getElementById('param_tipo');
+	
+	if (modalTitle) modalTitle.textContent = 'Editar Parámetro del Sistema';
+	if (paramForm) paramForm.reset();
+	if (paramId) paramId.value = id;
+	if (paramTipo) paramTipo.value = 'sistema';
+	
+	// Mostrar campos apropiados para parámetros del sistema
+	showFieldsForType('sistema');
+	
+	// Para parámetros del sistema, usar datos estáticos por ahora
+	// TODO: Implementar API específica para parámetros del sistema
+	const datosEjemplo = {
+		1: { pensum: 'ING-SIS', parametro: 'gestion_practica', valor: '1/2024', modulo: 'Práctica Industrial', estado: true },
+		2: { pensum: 'ING-SIS', parametro: 'mensualidades', valor: '5', modulo: 'Cobros Mensualidades', estado: true },
+		3: { pensum: 'ING-SIS', parametro: 'modificacion_notas', valor: 'false', modulo: 'Modificación de Notas', estado: false }
+	};
+	
+	const parametro = datosEjemplo[id];
+	if (parametro) {
+		const pensum = document.getElementById('pensum');
+		const parametroField = document.getElementById('parametro');
+		const valorSistema = document.getElementById('valor_sistema');
+		const modulo = document.getElementById('modulo');
+		const estado = document.getElementById('estado');
+		
+		if (pensum) pensum.value = parametro.pensum || '';
+		if (parametroField) parametroField.value = parametro.parametro || '';
+		if (valorSistema) valorSistema.value = parametro.valor || '';
+		if (modulo) modulo.value = parametro.modulo || '';
+		if (estado) estado.value = parametro.estado ? '1' : '0';
+		
+		openModal('paramModal');
+	} else {
+		showAlert('Parámetro del sistema no encontrado', 'danger');
+	}
+}
+
+function openEditModalEconomico(id) {
+	console.log('Abriendo modal de edición para Parámetro Económico ID:', id);
+	const modalTitle = document.getElementById('modal-title');
+	const paramForm = document.getElementById('paramForm');
+	const paramId = document.getElementById('param_id');
+	const paramTipo = document.getElementById('param_tipo');
+	
+	if (modalTitle) modalTitle.textContent = 'Editar Parámetro Económico';
+	if (paramForm) paramForm.reset();
+	if (paramId) paramId.value = id;
+	if (paramTipo) paramTipo.value = 'economico';
+	
+	// Mostrar campos apropiados para parámetros económicos
+	showFieldsForType('economico');
+	
+	// Hacer petición para obtener datos del parámetro económico
+	fetch(`/configuracion/parametros-economicos/${id}/show`)
+		.then(response => response.json())
+		.then(data => {
+			console.log('Datos recibidos:', data);
+			if (data.success) {
+				const parametro = data.data;
+				const nombre = document.getElementById('nombre');
+				const valor = document.getElementById('valor');
+				const descripcion = document.getElementById('descripcion');
+				const estado = document.getElementById('estado');
+				
+				if (nombre) nombre.value = parametro.nombre || '';
+				if (valor) valor.value = parametro.valor || '';
+				if (descripcion) descripcion.value = parametro.descripcion || '';
+				if (estado) estado.value = parametro.estado ? '1' : '0';
+				
+				openModal('paramModal');
+			} else {
+				showAlert('Error al cargar los datos del parámetro económico', 'danger');
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+			showAlert('Error al cargar los datos del parámetro económico', 'danger');
+		});
+}
+
+function openEditModalItem(id) {
+	console.log('Abriendo modal de edición para Item de Cobro ID:', id);
+	const modalTitle = document.getElementById('modal-title');
+	const paramForm = document.getElementById('paramForm');
+	const paramId = document.getElementById('param_id');
+	const paramTipo = document.getElementById('param_tipo');
+	
+	if (modalTitle) modalTitle.textContent = 'Editar Item de Cobro';
+	if (paramForm) paramForm.reset();
+	if (paramId) paramId.value = id;
+	if (paramTipo) paramTipo.value = 'item';
+	
+	// Mostrar campos apropiados para items de cobro
+	showFieldsForType('item');
+	
+	// Para items de cobro, usar datos estáticos por ahora
+	// TODO: Implementar API específica para items de cobro
+	const datosEjemplo = {
+		1: { concepto: 'Matrícula Semestral', monto: '350.00', tipo_item: 'Fijo', categoria: 'mensualidades', estado: true },
+		2: { concepto: 'Examen de Recuperación', monto: '75.00', tipo_item: 'Fijo', categoria: 'examenes', estado: true },
+		3: { concepto: 'Certificado de Notas', monto: '25.00', tipo_item: 'Fijo', categoria: 'certificados', estado: true },
+		4: { concepto: 'Recargo por Mora', monto: '5.00', tipo_item: 'Porcentaje', categoria: 'intereses', estado: true }
+	};
+	
+	const parametro = datosEjemplo[id];
+	if (parametro) {
+		const concepto = document.getElementById('concepto');
+		const monto = document.getElementById('monto');
+		const tipoItem = document.getElementById('tipo_item');
+		const categoria = document.getElementById('categoria');
+		const estado = document.getElementById('estado');
+		
+		if (concepto) concepto.value = parametro.concepto || '';
+		if (monto) monto.value = parametro.monto || '';
+		if (tipoItem) tipoItem.value = parametro.tipo_item || 'Fijo';
+		if (categoria) categoria.value = parametro.categoria || 'mensualidades';
+		if (estado) estado.value = parametro.estado ? '1' : '0';
+		
+		openModal('paramModal');
+	} else {
+		showAlert('Item de cobro no encontrado', 'danger');
+	}
+}
+
+// Función genérica (mantener para compatibilidad)
+function openEditModal(id) {
+	console.log('Usando función genérica openEditModal para ID:', id);
+	// Por defecto, usar la función de parámetros económicos
+	openEditModalEconomico(id);
+}
+
+function confirmDelete(id) {
+	console.log('Confirmando eliminación para ID:', id);
+	deleteId = id;
+	openModal('deleteModal');
+}
+
+function executeDelete() {
+	console.log('Ejecutando eliminación para ID:', deleteId);
+	if (!deleteId) {
+		showAlert('No hay elemento seleccionado para eliminar', 'danger');
+		return;
+	}
+	
+	try {
+		const token = getCsrfToken();
+		fetch(`/configuracion/parametros-economicos/${deleteId}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-CSRF-TOKEN': token
+			}
+		})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log('Respuesta de eliminación:', data);
+			if (data.success) {
+				closeDeleteModal();
+				window.location.reload();
+			} else {
+				showAlert('Error al eliminar el parámetro económico: ' + (data.message || 'Error desconocido'), 'danger');
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+			showAlert('Error al eliminar el parámetro económico: ' + error.message, 'danger');
+		});
+	} catch (error) {
+		showAlert(error.message, 'danger');
+	}
+}
+
+function toggleStatus(id) {
+	console.log('Cambiando estado para ID:', id);
+	try {
+		const token = getCsrfToken();
+		fetch(`/configuracion/parametros-economicos/${id}/toggle-status`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-CSRF-TOKEN': token
+			}
+		})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log('Respuesta de cambio de estado:', data);
+			if (data.success) {
+				window.location.reload();
+			} else {
+				showAlert('Error al cambiar el estado del parámetro económico: ' + (data.message || 'Error desconocido'), 'danger');
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+			showAlert('Error al cambiar el estado del parámetro económico: ' + error.message, 'danger');
+		});
+	} catch (error) {
+		showAlert(error.message, 'danger');
+	}
+}
+
+// Configuración de pestañas
+function setupTabs() {
+	console.log('Configurando pestañas');
+	const tabButtons = document.querySelectorAll('.tab-button');
+	const tabContents = document.querySelectorAll('.tab-content');
+	
+	console.log('Botones encontrados:', tabButtons.length);
+	console.log('Contenidos encontrados:', tabContents.length);
+	
+	tabButtons.forEach((button, index) => {
+		button.addEventListener('click', (e) => {
+			e.preventDefault();
+			const tabId = button.getAttribute('data-tab');
+			console.log('Tab clicked:', tabId);
+			
+			// Remover clase active de todos
+			tabButtons.forEach(btn => btn.classList.remove('active'));
+			tabContents.forEach(content => content.classList.remove('active'));
+			
+			// Activar el seleccionado
+			button.classList.add('active');
+			const targetContent = document.getElementById('tab-' + tabId);
+			if (targetContent) {
+				targetContent.classList.add('active');
+				console.log('Tab content activated:', 'tab-' + tabId);
+			}
+		});
+	});
+}
+
+// Configuración de búsqueda
+function setupSearch() {
+	console.log('Configurando búsqueda');
+	const searchConfigs = [
+		{ inputId: 'searchSistemaInput', tableId: 'parametrosSistemaTable' },
+		{ inputId: 'searchEconomicosInput', tableId: 'parametrosEconomicosTable' },
+		{ inputId: 'searchItemsInput', tableId: 'itemsCobroTable' }
+	];
+	
+	searchConfigs.forEach(function(config) {
+		const input = document.getElementById(config.inputId);
+		const table = document.getElementById(config.tableId);
+		
+		if (input && table) {
+			console.log('Configurando búsqueda para:', config.inputId);
+			input.addEventListener('keyup', function() {
+				const filter = input.value.toUpperCase();
+				const rows = table.getElementsByTagName('tr');
+				
+				for (let i = 1; i < rows.length; i++) {
+					let found = false;
+					const cells = rows[i].getElementsByTagName('td');
+					
+					for (let j = 0; j < cells.length; j++) {
+						const cell = cells[j];
+						if (cell && cell.textContent.toUpperCase().indexOf(filter) > -1) {
+							found = true;
+							break;
+						}
+					}
+					
+					rows[i].style.display = found ? '' : 'none';
+				}
+			});
+		}
+	});
+}
+
+// Inicialización
+function init() {
+	console.log('Inicializando script local');
+	setupTabs();
+	setupSearch();
+	console.log('Script local inicializado correctamente');
+}
+
+// Ejecutar cuando el DOM esté listo
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', init);
+} else {
+	init();
+}
+</script>
 @endpush
