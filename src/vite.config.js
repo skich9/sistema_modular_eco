@@ -11,7 +11,7 @@ export default defineConfig({
                 'resources/js/auth/auth.js',
                 'resources/js/configuracion/roles.js',
                 'resources/js/configuracion/funciones.js',
-                'resources/js/configuracion/parametros-economicos.js',
+                'resources/js/configuracion/parametros-economicos-simple.js',
                 'resources/js/configuracion/asignacion-economica.js'
             ],
             refresh: true,

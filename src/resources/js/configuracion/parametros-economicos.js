@@ -1,9 +1,7 @@
 /**
- * Script para la gestión de parámetros económicos
+ * Script simplificado para la gestión de parámetros económicos
+ * Sin imports para evitar problemas de carga
  */
-import { showAlert } from '../common/alerts.js';
-import { getCsrfToken } from '../common/utils.js';
-import { openModal, closeModal, setupModalOutsideClick } from '../common/modals.js';
 
 // Variable global para almacenar el ID del parámetro a eliminar
 let deleteId = null;
@@ -11,45 +9,117 @@ let deleteId = null;
 /**
  * Inicializa los eventos y funcionalidades de la página
  */
-export function init() {
-	// Configurar búsqueda
+function init() {
+	console.log('Inicializando parámetros económicos...');
+	
+	// Configurar navegación por pestañas
+	setupTabs();
+
+	// Configurar búsqueda para todas las tablas
 	setupSearch();
 	
-	// Configurar eventos para modales
+	// Configurar eventos para modales (simplificado)
 	setupModalEvents();
-	
-	// Configurar formulario
-	setupForm();
-	
-	// Configurar botón de eliminar
-	setupDeleteButton();
-	
-	// Configurar cierre de modales al hacer clic fuera
-	setupModalOutsideClick();
 }
 
 /**
- * Configura la funcionalidad de búsqueda
+ * Configura la navegación por pestañas
+ */
+function setupTabs() {
+	console.log('setupTabs: Iniciando configuración...');
+	
+	const tabButtons = document.querySelectorAll('.tab-button');
+	const tabContents = document.querySelectorAll('.tab-content');
+
+	console.log('setupTabs: Encontrados', tabButtons.length, 'botones y', tabContents.length, 'contenidos');
+
+	if (tabButtons.length === 0 || tabContents.length === 0) {
+		console.log('setupTabs: No hay pestañas que configurar');
+		return;
+	}
+
+	tabButtons.forEach((button, index) => {
+		console.log('setupTabs: Configurando botón', index, 'con data-tab:', button.getAttribute('data-tab'));
+		
+		button.addEventListener('click', (e) => {
+			e.preventDefault(); // Evitar navegación por defecto
+			
+			const tabId = button.getAttribute('data-tab');
+			console.log('Tab clicked:', tabId);
+			
+			// Remover clase active de todos los botones y contenidos
+			tabButtons.forEach(btn => {
+				btn.classList.remove('active');
+				console.log('Removiendo active de botón:', btn.getAttribute('data-tab'));
+			});
+			
+			tabContents.forEach(content => {
+				content.classList.remove('active');
+				console.log('Removiendo active de contenido:', content.id);
+			});
+			
+			// Agregar clase active al botón clickeado
+			button.classList.add('active');
+			console.log('Agregando active al botón:', tabId);
+			
+			// Mostrar el contenido correspondiente
+			const tabContent = document.getElementById('tab-' + tabId);
+			if (tabContent) {
+				tabContent.classList.add('active');
+				console.log('Tab content activated:', tabContent.id);
+			} else {
+				console.error('Tab content not found:', 'tab-' + tabId);
+			}
+		});
+	});
+	
+	console.log('setupTabs: Configuración completada');
+}
+
+/**
+ * Configura la funcionalidad de búsqueda básica
  */
 function setupSearch() {
-	const searchInput = document.getElementById('searchInput');
-	if (searchInput) {
-		searchInput.addEventListener('keyup', function() {
-			const searchTerm = this.value.toLowerCase();
-			const rows = document.querySelectorAll('#parametrosTable .parametro-row');
+	console.log('setupSearch: Configurando búsqueda...');
+	
+	// Configurar búsqueda para cada input de búsqueda
+	const searchConfigs = [
+		{ inputId: 'searchSistemaInput', tableId: 'parametrosSistemaTable' },
+		{ inputId: 'searchEconomicosInput', tableId: 'parametrosEconomicosTable' },
+		{ inputId: 'searchItemsInput', tableId: 'itemsCobroTable' }
+	];
+	
+	searchConfigs.forEach(function(config) {
+		const input = document.getElementById(config.inputId);
+		const table = document.getElementById(config.tableId);
+		
+		if (input && table) {
+			console.log('setupSearch: Configurando búsqueda para', config.inputId, '->', config.tableId);
 			
-			rows.forEach(row => {
-				const nombre = row.cells[1].textContent.toLowerCase();
-				const descripcion = row.cells[3].textContent.toLowerCase();
+			input.addEventListener('keyup', function() {
+				const filter = input.value.toUpperCase();
+				const rows = table.getElementsByTagName('tr');
 				
-				if (nombre.includes(searchTerm) || descripcion.includes(searchTerm)) {
-					row.style.display = '';
-				} else {
-					row.style.display = 'none';
+				// Comenzar desde 1 para omitir el encabezado
+				for (let i = 1; i < rows.length; i++) {
+					let found = false;
+					const cells = rows[i].getElementsByTagName('td');
+					
+					for (let j = 0; j < cells.length; j++) {
+						const cell = cells[j];
+						if (cell && cell.textContent.toUpperCase().indexOf(filter) > -1) {
+							found = true;
+							break;
+						}
+					}
+					
+					rows[i].style.display = found ? '' : 'none';
 				}
 			});
-		});
-	}
+		} else {
+			console.log('setupSearch: No se encontró', config.inputId, 'o', config.tableId);
+		}
+	});
 }
 
 /**
@@ -74,11 +144,24 @@ function setupModalEvents() {
 
 /**
  * Abre el modal para crear un nuevo parámetro
+ * @param {string} tipo - Tipo de parámetro: 'sistema', 'economico', 'item'
  */
-export function openCreateModal() {
-	document.getElementById('modal-title').textContent = 'Crear Parámetro Económico';
+export function openCreateModal(tipo = 'economico') {
+	let titulo = 'Crear Parámetro Económico';
+	
+	switch(tipo) {
+		case 'sistema':
+			titulo = 'Crear Parámetro del Sistema';
+			break;
+		case 'item':
+			titulo = 'Crear Item de Cobro';
+			break;
+	}
+	
+	document.getElementById('modal-title').textContent = titulo;
 	document.getElementById('paramForm').reset();
 	document.getElementById('param_id').value = '';
+	document.getElementById('param_tipo').value = tipo;
 	openModal('paramModal');
 }
 
