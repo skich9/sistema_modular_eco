@@ -8,6 +8,8 @@ use App\Http\Controllers\FuncionWebController;
 use App\Http\Controllers\EconomicoWebController;
 use App\Http\Controllers\ParametrosEconomicosWebController;
 use App\Http\Controllers\AsignacionCostosWebController;
+use App\Http\Controllers\ItemsCobroWebController;
+use App\Http\Controllers\MateriaWebController;
 // ========== RUTAS DE AUTENTICACIÓN ==========
 
 // Ruta de bienvenida
@@ -62,6 +64,23 @@ Route::middleware('auth.custom')->group(function () {
         Route::put('/asignacion-economica/{codPensum}/{codInscrip}/{idAsignacion}', [AsignacionCostosWebController::class, 'updateAsignacion'])->name('asignacion_economica.update_asignacion');
         Route::delete('/asignacion-economica/{codPensum}/{codInscrip}/{idAsignacion}', [AsignacionCostosWebController::class, 'destroyAsignacion'])->name('asignacion_economica.destroy_asignacion');
         Route::post('/asignacion-economica/{codPensum}/{codInscrip}/{idAsignacion}/toggle-status', [AsignacionCostosWebController::class, 'toggleStatus'])->name('asignacion_economica.toggle_status');
+        
+        // Items de Cobro
+        Route::get('/items-cobro', [ItemsCobroWebController::class, 'getAll'])->name('items_cobro.all');
+        Route::post('/items-cobro', [ItemsCobroWebController::class, 'store'])->name('items_cobro.store');
+        Route::get('/items-cobro/{id}/show', [ItemsCobroWebController::class, 'show'])->name('items_cobro.show');
+        Route::put('/items-cobro/{id}', [ItemsCobroWebController::class, 'update'])->name('items_cobro.update');
+        Route::delete('/items-cobro/{id}', [ItemsCobroWebController::class, 'destroy'])->name('items_cobro.destroy');
+        Route::post('/items-cobro/{id}/toggle-status', [ItemsCobroWebController::class, 'toggleStatus'])->name('items_cobro.toggle-status');
+        Route::get('/parametros-economicos-select', [ItemsCobroWebController::class, 'getParametrosEconomicos'])->name('items_cobro.parametros');
+        
+        // Materias
+        Route::get('/materias', [MateriaWebController::class, 'getAll'])->name('materias.all');
+        Route::post('/materias', [MateriaWebController::class, 'store'])->name('materias.store');
+        Route::get('/materias/{sigla}/{codPensum}/show', [MateriaWebController::class, 'show'])->name('materias.show');
+        Route::put('/materias/{sigla}/{codPensum}', [MateriaWebController::class, 'update'])->name('materias.update');
+        Route::delete('/materias/{sigla}/{codPensum}', [MateriaWebController::class, 'destroy'])->name('materias.destroy');
+        Route::post('/materias/{sigla}/{codPensum}/toggle-status', [MateriaWebController::class, 'toggleStatus'])->name('materias.toggle-status');
     });
 });
 
