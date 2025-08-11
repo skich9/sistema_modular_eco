@@ -11,8 +11,13 @@ export default defineConfig({
                 'resources/js/auth/auth.js',
                 'resources/js/configuracion/roles.js',
                 'resources/js/configuracion/funciones.js',
-                'resources/js/configuracion/parametros-economicos-simple.js',
-                'resources/js/configuracion/asignacion-economica.js'
+                'resources/js/configuracion/asignacion-economica.js',
+                // Nuevos scripts para parámetros del sistema
+                'resources/js/parametros/tabs.js',
+                'resources/js/parametros/parametros-economicos.js',
+                'resources/js/parametros/items-cobro.js',
+                'resources/js/parametros/materias.js',
+                'resources/js/parametros/index.js'
             ],
             refresh: true,
         }),

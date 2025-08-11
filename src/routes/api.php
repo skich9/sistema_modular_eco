@@ -67,3 +67,37 @@ Route::get('/productos/{id}', [ProductosController::class, 'show']);
 Route::post('/productos', [ProductosController::class, 'store']);
 Route::put('/productos/{id}', [ProductosController::class, 'update']);
 Route::delete('/productos/{id}', [ProductosController::class, 'destroy']);
+
+// ========== RUTAS PARA PARÁMETROS DEL SISTEMA ==========
+
+// Importar controladores de parámetros del sistema
+use App\Http\Controllers\Api\MateriaController;
+use App\Http\Controllers\Api\ParametrosEconomicosController;
+use App\Http\Controllers\Api\ItemsCobroController;
+
+// Rutas para materias
+Route::prefix('parametros-sistema')->group(function () {
+    // Materias
+    Route::get('/materias', [MateriaController::class, 'index']);
+    Route::post('/materias', [MateriaController::class, 'store']);
+    Route::get('/materias/{sigla}/{pensum}', [MateriaController::class, 'show']);
+    Route::put('/materias/{sigla}/{pensum}', [MateriaController::class, 'update']);
+    Route::delete('/materias/{sigla}/{pensum}', [MateriaController::class, 'destroy']);
+    Route::put('/materias/{sigla}/{pensum}/toggle-status', [MateriaController::class, 'toggleStatus']);
+    
+    // Parámetros económicos
+    Route::get('/parametros-economicos', [ParametrosEconomicosController::class, 'index']);
+    Route::post('/parametros-economicos', [ParametrosEconomicosController::class, 'store']);
+    Route::get('/parametros-economicos/{id}', [ParametrosEconomicosController::class, 'show']);
+    Route::put('/parametros-economicos/{id}', [ParametrosEconomicosController::class, 'update']);
+    Route::delete('/parametros-economicos/{id}', [ParametrosEconomicosController::class, 'destroy']);
+    Route::put('/parametros-economicos/{id}/toggle-status', [ParametrosEconomicosController::class, 'toggleStatus']);
+    
+    // Items de cobro
+    Route::get('/items-cobro', [ItemsCobroController::class, 'index']);
+    Route::post('/items-cobro', [ItemsCobroController::class, 'store']);
+    Route::get('/items-cobro/{id}', [ItemsCobroController::class, 'show']);
+    Route::put('/items-cobro/{id}', [ItemsCobroController::class, 'update']);
+    Route::delete('/items-cobro/{id}', [ItemsCobroController::class, 'destroy']);
+    Route::put('/items-cobro/{id}/toggle-status', [ItemsCobroController::class, 'toggleStatus']);
+});

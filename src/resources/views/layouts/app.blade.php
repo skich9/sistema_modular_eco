@@ -7,6 +7,9 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>@yield('title', 'Sistema de Cobros - Instituto Tecnológico CETA')</title>
 	
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	
 	<!-- Tailwind CSS -->
 	<script src="https://cdn.tailwindcss.com"></script>
 	
@@ -75,6 +78,12 @@
 			});
 		}, 5000);
 	</script>
+	
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	
 	@stack('scripts')
 </body>

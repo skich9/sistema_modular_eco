@@ -72,17 +72,11 @@ class NavigationMenu extends Component
                         'roles' => ['Administrador', 'Secretaria'],
                     ],
                     [
-                        'name' => 'Parámetros Económicos',
-                        'route' => 'parametros_economicos.index',
-                        'icon' => 'fa-money-bill',
+                        'name' => 'Parámetros del Sistema',
+                        'route' => 'parametros_sistema.index',
+                        'icon' => 'fa-cogs',
                         'roles' => ['Administrador', 'Secretaria'],
-                    ],
-                    [
-                        'name' => 'Asignación Económica',
-                        'route' => 'asignacion_economica.index',
-                        'icon' => 'fa-coins',
-                        'roles' => ['Administrador', 'Secretaria'],
-                    ],
+                    ]
                 ],
                 'roles' => ['Administrador', 'Secretaria'],
             ],
