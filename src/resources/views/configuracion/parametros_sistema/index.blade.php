@@ -5,7 +5,6 @@
 @section('content')
 <!-- Menú de navegación -->
 <x-navigation-menu />
-
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
@@ -325,7 +324,6 @@
     </div>
 </div>
 
-<!-- Modal de confirmación para eliminar -->
 <!-- Modal de confirmación para eliminar -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

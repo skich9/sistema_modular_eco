@@ -1,6 +1,9 @@
 /**
  * Módulo para manejar los parámetros económicos
  */
+/**
+ * Módulo para manejar los parámetros económicos (versión con manejo de eventos como Materias)
+ */
 const ParametrosEconomicos = {
     apiUrl: '/api/parametros-sistema/parametros-economicos',
     
@@ -11,50 +14,26 @@ const ParametrosEconomicos = {
     },
     
     setupEventListeners: function() {
-        // Event delegation para botones de acción
-        document.addEventListener('click', (e) => {
-            const target = e.target.closest('button');
-            if (!target) return;
-
-            const action = target.dataset.action;
-            const type = target.dataset.type;
-            
-            // Manejar botones de parámetros económicos
-            if (type === 'parametro') {
-                if (action === 'create') {
-                    this.openCreateModal();
-                } else if (action === 'edit') {
-                    const id = target.dataset.id;
-                    this.editParametro(id);
-                } else if (action === 'delete') {
-                    const id = target.dataset.id;
-                    this.confirmDelete(id);
-                } else if (action === 'toggle') {
-                    const id = target.dataset.id;
-                    this.toggleStatus(id);
-                }
-            }
+        // Botón para guardar parámetro
+        document.getElementById('btnGuardarParametro').addEventListener('click', () => {
+            this.saveParametro();
         });
         
-        // Botón para guardar parámetro en modal
-        const btnGuardar = document.getElementById('btnGuardarParametro');
-        if (btnGuardar) {
-            btnGuardar.addEventListener('click', () => {
-                this.saveParametro();
-            });
-        }
+        // Botón para crear nuevo parámetro
+        document.getElementById('btnNuevoParametro').addEventListener('click', () => {
+            this.resetForm();
+            document.getElementById('parametroModalLabel').textContent = 'Nuevo Parámetro Económico';
+            $('#parametroModal').modal('show');
+        });
         
-        // Botón para confirmar eliminación en modal
-        const btnConfirmDelete = document.getElementById('btnConfirmDelete');
-        if (btnConfirmDelete) {
-            btnConfirmDelete.addEventListener('click', () => {
-                const type = document.getElementById('deleteType').value;
-                if (type === 'parametro') {
-                    const id = document.getElementById('deleteId').value;
-                    this.deleteParametro(id);
-                }
-            });
-        }
+        // Botón para confirmar eliminación
+        document.getElementById('btnConfirmDelete').addEventListener('click', () => {
+            const type = document.getElementById('deleteType').value;
+            if (type === 'parametro') {
+                const id = document.getElementById('deleteId').value;
+                this.deleteParametro(id);
+            }
+        });
     },
     
     loadParametros: function() {
@@ -107,19 +86,35 @@ const ParametrosEconomicos = {
                     </span>
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-info" data-action="edit" data-type="parametro" data-id="${parametro.id_parametro_economico}">
+                    <button class="btn btn-sm btn-info btn-edit" data-id="${parametro.id_parametro_economico}">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-sm btn-danger" data-action="delete" data-type="parametro" data-id="${parametro.id_parametro_economico}">
+                    <button class="btn btn-sm btn-danger btn-delete" data-id="${parametro.id_parametro_economico}" data-type="parametro">
                         <i class="fas fa-trash"></i>
                     </button>
-                    <button class="btn btn-sm btn-${parametro.estado ? 'warning' : 'success'}" data-action="toggle" data-type="parametro" data-id="${parametro.id_parametro_economico}">
+                    <button class="btn btn-sm btn-${parametro.estado ? 'warning' : 'success'} btn-toggle" data-id="${parametro.id_parametro_economico}">
                         <i class="fas fa-${parametro.estado ? 'ban' : 'check'}"></i>
                     </button>
                 </td>
             `;
             
             tbody.appendChild(row);
+            
+            // Agregar event listeners a los botones (como en Materias)
+            row.querySelector('.btn-edit').addEventListener('click', (e) => {
+                this.editParametro(e.currentTarget.dataset.id);
+            });
+            
+            row.querySelector('.btn-delete').addEventListener('click', (e) => {
+                this.confirmDelete(
+                    e.currentTarget.dataset.id,
+                    e.currentTarget.dataset.type
+                );
+            });
+            
+            row.querySelector('.btn-toggle').addEventListener('click', (e) => {
+                this.toggleStatus(e.currentTarget.dataset.id);
+            });
         });
     },
     
@@ -268,12 +263,6 @@ const ParametrosEconomicos = {
         });
     },
     
-    openCreateModal: function() {
-        this.resetForm();
-        document.getElementById('parametroModalLabel').textContent = 'Nuevo Parámetro Económico';
-        $('#parametroModal').modal('show');
-    },
-
     confirmDelete: function(id, type) {
         document.getElementById('deleteId').value = id;
         document.getElementById('deleteType').value = type;
