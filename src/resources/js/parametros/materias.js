@@ -7,6 +7,7 @@ const Materias = {
     init: function() {
         console.log('Inicializando Materias');
         this.loadMaterias();
+        this.loadParametrosEconomicos();
         this.setupEventListeners();
     },
     
@@ -32,6 +33,27 @@ const Materias = {
                 this.deleteMateria(sigla, pensum);
             }
         });
+    },
+    
+    loadParametrosEconomicos: function() {
+        fetch('/api/parametros-sistema/parametros-economicos')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const select = document.getElementById('materiaParametroEconomico');
+                    select.innerHTML = '<option value="">Seleccione un parámetro</option>';
+                    
+                    data.data.forEach(parametro => {
+                        const option = document.createElement('option');
+                        option.value = parametro.id_parametro_economico;
+                        option.textContent = `${parametro.nombre} - ${parametro.descripcion || ''}`;
+                        select.appendChild(option);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error al cargar parámetros económicos:', error);
+            });
     },
     
     loadMaterias: function() {
@@ -64,7 +86,7 @@ const Materias = {
         
         if (materias.length === 0) {
             const row = document.createElement('tr');
-            row.innerHTML = '<td colspan="6" class="text-center">No hay materias registradas</td>';
+            row.innerHTML = '<td colspan="9" class="text-center">No hay materias registradas</td>';
             tbody.appendChild(row);
             return;
         }
@@ -75,7 +97,10 @@ const Materias = {
                 <td>${materia.sigla_materia}</td>
                 <td>${materia.cod_pensum}</td>
                 <td>${materia.nombre_materia}</td>
+                <td>${materia.nombre_material_oficial || 'N/A'}</td>
                 <td>${materia.nro_creditos}</td>
+                <td>${materia.orden || 'N/A'}</td>
+                <td>${materia.parametro_economico ? materia.parametro_economico.nombre : 'N/A'}</td>
                 <td>
                     <span class="badge badge-${materia.estado ? 'success' : 'danger'}">
                         ${materia.estado ? 'Activo' : 'Inactivo'}
@@ -139,7 +164,10 @@ const Materias = {
                     document.getElementById('materiaPensum').value = materia.cod_pensum;
                     document.getElementById('materiaPensum').disabled = true; // No se puede cambiar el pensum
                     document.getElementById('materiaNombre').value = materia.nombre_materia;
+                    document.getElementById('materiaNombreOficial').value = materia.nombre_material_oficial || '';
                     document.getElementById('materiaCreditos').value = materia.nro_creditos;
+                    document.getElementById('materiaOrden').value = materia.orden || '';
+                    document.getElementById('materiaParametroEconomico').value = materia.id_parametro_economico || '';
                     document.getElementById('materiaDescripcion').value = materia.descripcion || '';
                     document.getElementById('materiaEstado').value = materia.estado ? '1' : '0';
                     
@@ -165,14 +193,17 @@ const Materias = {
             sigla_materia: sigla,
             cod_pensum: pensum,
             nombre_materia: document.getElementById('materiaNombre').value,
+            nombre_material_oficial: document.getElementById('materiaNombreOficial').value,
             nro_creditos: document.getElementById('materiaCreditos').value,
+            orden: document.getElementById('materiaOrden').value,
+            id_parametro_economico: parseInt(document.getElementById('materiaParametroEconomico').value),
             descripcion: document.getElementById('materiaDescripcion').value,
             estado: document.getElementById('materiaEstado').value
         };
         
         // Validación básica
-        if (!materia.sigla_materia || !materia.cod_pensum || !materia.nombre_materia || !materia.nro_creditos) {
-            this.showAlert('error', 'Por favor complete los campos obligatorios');
+        if (!materia.sigla_materia || !materia.cod_pensum || !materia.nombre_materia || !materia.nombre_material_oficial || !materia.nro_creditos || !materia.orden || !materia.id_parametro_economico) {
+            this.showAlert('error', 'Por favor complete los campos obligatorios (Sigla, Pensum, Nombre, Nombre Oficial, Créditos, Orden y Parámetro Económico)');
             return;
         }
         

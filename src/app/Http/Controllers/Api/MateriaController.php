@@ -18,7 +18,7 @@ class MateriaController extends Controller
     public function index()
     {
         try {
-            $materias = Materia::all();
+            $materias = Materia::with('parametroEconomico')->get();
             return response()->json([
                 'success' => true,
                 'data' => $materias
@@ -44,7 +44,10 @@ class MateriaController extends Controller
                 'sigla_materia' => 'required|string|max:10',
                 'cod_pensum' => 'required|string|max:10',
                 'nombre_materia' => 'required|string|max:100',
+                'nombre_material_oficial' => 'required|string|max:100',
                 'nro_creditos' => 'required|integer|min:1',
+                'orden' => 'required|integer|min:1',
+                'id_parametro_economico' => 'required|integer|exists:parametros_economicos,id_parametro_economico',
                 'descripcion' => 'nullable|string|max:255',
                 'estado' => 'required|boolean'
             ]);
@@ -94,7 +97,8 @@ class MateriaController extends Controller
     public function show($sigla, $pensum)
     {
         try {
-            $materia = Materia::where('sigla_materia', $sigla)
+            $materia = Materia::with('parametroEconomico')
+                ->where('sigla_materia', $sigla)
                 ->where('cod_pensum', $pensum)
                 ->first();
 
@@ -141,7 +145,10 @@ class MateriaController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'nombre_materia' => 'required|string|max:100',
+                'nombre_material_oficial' => 'required|string|max:100',
                 'nro_creditos' => 'required|integer|min:1',
+                'orden' => 'required|integer|min:1',
+                'id_parametro_economico' => 'required|integer|exists:parametros_economicos,id_parametro_economico',
                 'descripcion' => 'nullable|string|max:255',
                 'estado' => 'required|boolean'
             ]);

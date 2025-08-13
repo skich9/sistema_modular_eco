@@ -151,7 +151,10 @@
                                         <th>Sigla</th>
                                         <th>Pensum</th>
                                         <th>Nombre</th>
+                                        <th>Nombre Oficial</th>
                                         <th>Créditos</th>
+                                        <th>Orden</th>
+                                        <th>Parámetro Económico</th>
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -317,8 +320,22 @@
                         <input type="text" class="form-control" id="materiaNombre" name="nombre_materia" required>
                     </div>
                     <div class="form-group">
+                        <label for="materiaNombreOficial">Nombre Material Oficial</label>
+                        <input type="text" class="form-control" id="materiaNombreOficial" name="nombre_material_oficial" required>
+                    </div>
+                    <div class="form-group">
                         <label for="materiaCreditos">Número de Créditos</label>
                         <input type="number" class="form-control" id="materiaCreditos" name="nro_creditos" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="materiaOrden">Orden</label>
+                        <input type="number" class="form-control" id="materiaOrden" name="orden" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="materiaParametroEconomico">Parámetro Económico</label>
+                        <select class="form-control" id="materiaParametroEconomico" name="id_parametro_economico" required>
+                            <option value="">Seleccione un parámetro</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="materiaDescripcion">Descripción</label>
