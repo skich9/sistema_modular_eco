@@ -127,7 +127,7 @@ class ItemsCobroController extends Controller
             }
 
             $validator = Validator::make($request->all(), [
-                'codigo_producto_interno' => 'required|string|max:15|unique:items_cobro,codigo_producto_interno,' . $id,
+                'codigo_producto_interno' => 'required|string|max:15|unique:items_cobro,codigo_producto_interno,' . $id . ',id_item',
                 'nombre_servicio' => 'required|string|max:100',
                 'codigo_producto_impuesto' => 'nullable|integer',
                 'unidad_medida' => 'required|integer',

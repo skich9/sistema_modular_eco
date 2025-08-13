@@ -212,17 +212,26 @@ const ParametrosEconomicos = {
             }
         })
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al eliminar parámetro');
-            }
-            return response.json();
+            return response.json().then(data => {
+                if (!response.ok) {
+                    // Manejar errores específicos según el código de estado
+                    if (response.status === 409 && data.error_type === 'foreign_key_constraint') {
+                        // Error de integridad referencial
+                        this.showAlert('warning', data.message);
+                        $('#deleteModal').modal('hide');
+                        return;
+                    }
+                    throw new Error(data.message || 'Error al eliminar parámetro');
+                }
+                return data;
+            });
         })
         .then(data => {
-            if (data.success) {
+            if (data && data.success) {
                 this.showAlert('success', 'Parámetro eliminado correctamente');
                 $('#deleteModal').modal('hide');
                 this.loadParametros();
-            } else {
+            } else if (data && !data.success) {
                 console.error('Error en la respuesta:', data.message);
                 this.showAlert('error', 'Error al eliminar parámetro: ' + data.message);
             }

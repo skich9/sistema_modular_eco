@@ -166,6 +166,32 @@ class ParametrosEconomicosController extends Controller
                 ], 404);
             }
 
+            // Verificar si hay items de cobro que usan este parámetro
+            $itemsCount = \App\Models\ItemsCobro::where('id_parametro_economico', $id)->count();
+            
+            // Verificar si hay materias que usan este parámetro
+            $materiasCount = \App\Models\Materia::where('id_parametro_economico', $id)->count();
+            
+            if ($itemsCount > 0 || $materiasCount > 0) {
+                $dependencias = [];
+                if ($itemsCount > 0) {
+                    $dependencias[] = "{$itemsCount} item(s) de cobro";
+                }
+                if ($materiasCount > 0) {
+                    $dependencias[] = "{$materiasCount} materia(s)";
+                }
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se puede eliminar este parámetro económico porque está siendo usado por: ' . implode(' y ', $dependencias) . '. Primero debe cambiar o eliminar esas referencias.',
+                    'error_type' => 'foreign_key_constraint',
+                    'dependencies' => [
+                        'items_cobro' => $itemsCount,
+                        'materias' => $materiasCount
+                    ]
+                ], 409); // 409 Conflict
+            }
+
             $parametro->delete();
 
             return response()->json([
