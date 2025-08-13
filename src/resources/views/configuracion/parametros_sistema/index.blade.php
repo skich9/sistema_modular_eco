@@ -339,7 +339,7 @@
                     </div>
                     <div class="form-group">
                         <label for="materiaDescripcion">Descripción</label>
-                        <textarea class="form-control" id="materiaDescripcion" name="descripcion" rows="3"></textarea>
+                        <textarea class="form-control" id="materiaDescripcion" name="descripcion" rows="3" maxlength="50"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="materiaEstado">Estado</label>
