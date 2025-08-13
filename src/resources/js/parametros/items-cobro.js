@@ -7,6 +7,7 @@ const ItemsCobro = {
     init: function() {
         console.log('Inicializando ItemsCobro');
         this.loadItems();
+        this.loadParametrosEconomicos();
         this.setupEventListeners();
     },
     
@@ -57,13 +58,34 @@ const ItemsCobro = {
             });
     },
     
+    loadParametrosEconomicos: function() {
+        fetch('/api/parametros-sistema/parametros-economicos')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const select = document.getElementById('itemParametroEconomico');
+                    select.innerHTML = '<option value="">Seleccione un parámetro</option>';
+                    
+                    data.data.forEach(parametro => {
+                        const option = document.createElement('option');
+                        option.value = parametro.id_parametro_economico;
+                        option.textContent = `${parametro.nombre} - ${parametro.descripcion || ''}`;
+                        select.appendChild(option);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error al cargar parámetros económicos:', error);
+            });
+    },
+    
     renderItems: function(items) {
         const tbody = document.querySelector('#itemsTable tbody');
         tbody.innerHTML = '';
         
         if (items.length === 0) {
             const row = document.createElement('tr');
-            row.innerHTML = '<td colspan="7" class="text-center">No hay items de cobro registrados</td>';
+            row.innerHTML = '<td colspan="8" class="text-center">No hay items de cobro registrados</td>';
             tbody.appendChild(row);
             return;
         }
@@ -75,6 +97,7 @@ const ItemsCobro = {
                 <td>${item.codigo_producto_interno}</td>
                 <td>${item.nombre_servicio}</td>
                 <td>${item.costo}</td>
+                <td>${item.unidad_medida || 'N/A'}</td>
                 <td>${item.tipo_item}</td>
                 <td>
                     <span class="badge badge-${item.estado ? 'success' : 'danger'}">
@@ -128,8 +151,12 @@ const ItemsCobro = {
                     document.getElementById('itemNombre').value = item.nombre_servicio;
                     document.getElementById('itemCodigo').value = item.codigo_producto_interno;
                     document.getElementById('itemCodigoImpuesto').value = item.codigo_producto_impuesto || '';
-                    document.getElementById('itemCosto').value = item.costo;
+                    document.getElementById('itemUnidadMedida').value = item.unidad_medida || '';
+                    document.getElementById('itemCosto').value = item.costo || '';
                     document.getElementById('itemCreditos').value = item.nro_creditos || 0;
+                    document.getElementById('itemFacturado').value = item.facturado ? '1' : '0';
+                    document.getElementById('itemActividadEconomica').value = item.actividad_economica || '';
+                    document.getElementById('itemParametroEconomico').value = item.id_parametro_economico || '';
                     document.getElementById('itemTipo').value = item.tipo_item;
                     document.getElementById('itemDescripcion').value = item.descripcion || '';
                     document.getElementById('itemEstado').value = item.estado ? '1' : '0';
@@ -154,17 +181,21 @@ const ItemsCobro = {
         const item = {
             nombre_servicio: document.getElementById('itemNombre').value,
             codigo_producto_interno: document.getElementById('itemCodigo').value,
-            codigo_producto_impuesto: document.getElementById('itemCodigoImpuesto').value,
-            costo: document.getElementById('itemCosto').value,
-            nro_creditos: document.getElementById('itemCreditos').value,
+            codigo_producto_impuesto: document.getElementById('itemCodigoImpuesto').value || null,
+            unidad_medida: parseInt(document.getElementById('itemUnidadMedida').value),
+            costo: parseInt(document.getElementById('itemCosto').value) || null,
+            nro_creditos: parseFloat(document.getElementById('itemCreditos').value),
+            facturado: parseInt(document.getElementById('itemFacturado').value),
+            actividad_economica: document.getElementById('itemActividadEconomica').value,
+            id_parametro_economico: parseInt(document.getElementById('itemParametroEconomico').value),
             tipo_item: document.getElementById('itemTipo').value,
             descripcion: document.getElementById('itemDescripcion').value,
-            estado: document.getElementById('itemEstado').value
+            estado: parseInt(document.getElementById('itemEstado').value)
         };
         
         // Validación básica
-        if (!item.nombre_servicio || !item.codigo_producto_interno || !item.costo) {
-            this.showAlert('error', 'Por favor complete los campos obligatorios');
+        if (!item.nombre_servicio || !item.codigo_producto_interno || !item.unidad_medida || !item.nro_creditos || !item.actividad_economica || !item.id_parametro_economico) {
+            this.showAlert('error', 'Por favor complete todos los campos obligatorios');
             return;
         }
         

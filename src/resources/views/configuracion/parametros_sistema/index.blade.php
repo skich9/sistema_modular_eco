@@ -119,6 +119,7 @@
                                         <th>Código</th>
                                         <th>Nombre</th>
                                         <th>Costo</th>
+                                        <th>Unidad medida</th>
                                         <th>Tipo</th>
                                         <th>Estado</th>
                                         <th>Acciones</th>
@@ -228,11 +229,33 @@
                     </div>
                     <div class="form-group">
                         <label for="itemCodigoImpuesto">Código Producto Impuesto</label>
-                        <input type="text" class="form-control" id="itemCodigoImpuesto" name="codigo_producto_impuesto">
+                        <input type="number" class="form-control" id="itemCodigoImpuesto" name="codigo_producto_impuesto">
+                    </div>
+                    <div class="form-group">
+                        <label for="itemUnidadMedida">Unidad de Medida</label>
+                        <input type="number" class="form-control" id="itemUnidadMedida" name="unidad_medida" required>
                     </div>
                     <div class="form-group">
                         <label for="itemCosto">Costo</label>
-                        <input type="number" step="0.01" class="form-control" id="itemCosto" name="costo" required>
+                        <input type="number" class="form-control" id="itemCosto" name="costo">
+                    </div>
+                    <div class="form-group">
+                        <label for="itemFacturado">Facturado</label>
+                        <select class="form-control" id="itemFacturado" name="facturado" required>
+                            <option value="1">Sí</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemActividadEconomica">Actividad Económica</label>
+                        <input type="text" class="form-control" id="itemActividadEconomica" name="actividad_economica" required maxlength="255">
+                    </div>
+                    <div class="form-group">
+                        <label for="itemParametroEconomico">Parámetro Económico</label>
+                        <select class="form-control" id="itemParametroEconomico" name="id_parametro_economico" required>
+                            <option value="">Seleccione un parámetro</option>
+                            <!-- Se cargarán dinámicamente -->
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="itemCreditos">Número de Créditos</label>

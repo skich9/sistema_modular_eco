@@ -40,12 +40,18 @@ class ItemsCobroController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'codigo_producto_interno' => 'required|string|max:20|unique:items_cobro',
+                'codigo_producto_interno' => 'required|string|max:15',
                 'nombre_servicio' => 'required|string|max:100',
-                'costo' => 'required|numeric|min:0',
-                'tipo_item' => 'required|string|max:50',
-                'descripcion' => 'nullable|string|max:255',
-                'estado' => 'required|boolean'
+                'codigo_producto_impuesto' => 'nullable|integer',
+                'unidad_medida' => 'required|integer',
+                'costo' => 'nullable|integer',
+                'nro_creditos' => 'required|numeric',
+                'tipo_item' => 'required|string|max:40',
+                'descripcion' => 'nullable|string|max:50',
+                'estado' => 'nullable|boolean',
+                'facturado' => 'required|boolean',
+                'actividad_economica' => 'required|string|max:255',
+                'id_parametro_economico' => 'required|integer'
             ]);
 
             if ($validator->fails()) {
@@ -121,12 +127,18 @@ class ItemsCobroController extends Controller
             }
 
             $validator = Validator::make($request->all(), [
-                'codigo_producto_interno' => 'required|string|max:20|unique:items_cobro,codigo_producto_interno,' . $id,
+                'codigo_producto_interno' => 'required|string|max:15|unique:items_cobro,codigo_producto_interno,' . $id,
                 'nombre_servicio' => 'required|string|max:100',
-                'costo' => 'required|numeric|min:0',
-                'tipo_item' => 'required|string|max:50',
-                'descripcion' => 'nullable|string|max:255',
-                'estado' => 'required|boolean'
+                'codigo_producto_impuesto' => 'nullable|integer',
+                'unidad_medida' => 'required|integer',
+                'costo' => 'nullable|integer',
+                'nro_creditos' => 'required|numeric',
+                'tipo_item' => 'required|string|max:40',
+                'descripcion' => 'nullable|string|max:50',
+                'estado' => 'nullable|boolean',
+                'facturado' => 'required|boolean',
+                'actividad_economica' => 'required|string|max:255',
+                'id_parametro_economico' => 'required|integer'
             ]);
 
             if ($validator->fails()) {
