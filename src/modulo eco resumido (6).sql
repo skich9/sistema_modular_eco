@@ -141,13 +141,13 @@ CREATE TABLE `egresos` (
 
 CREATE TABLE `estudiantes` (
   `cod_ceta` bigint PRIMARY KEY NOT NULL,
-  `ci` varchar(255) NOT NULL,
-  `nombres` varchar(255) NOT NULL,
-  `ap_paterno` varchar(255) NOT NULL,
-  `ap_materno` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT null,
-  `cod_pensum` varchar(255) NOT NULL,
-  `estado` varchar(255) DEFAULT null,
+  `ci` varchar(50) NOT NULL,
+  `nombres` varchar(70) NOT NULL,
+  `ap_paterno` varchar(70) NOT NULL,
+  `ap_materno` varchar(70) NOT NULL,
+  `email` varchar(100) DEFAULT null,
+  `cod_pensum` varchar(50) NOT NULL,
+  `estado` varchar(50) DEFAULT null,
   `created_at` timestamp DEFAULT null,
   `updated_at` timestamp DEFAULT null
 );
@@ -425,6 +425,17 @@ CREATE TABLE `pensums` (
   `updated_at` timestamp DEFAULT null
 );
 
+CREATE TABLE `carrera` (
+  `codigo_carrera` varchar(50) PRIMARY KEY NOT NULL,
+  `nombre` varchar(40) NOT NULL,
+  `descripcion` text DEFAULT null,
+  `prefijo_matricula` varchar(10) DEFAULT null,
+  `callback` varchar(150) DEFAULT null,
+  `estado` bool DEFAULT null,
+  `created_at` timestamp DEFAULT null,
+  `updated_at` timestamp DEFAULT null
+);
+
 CREATE TABLE `productos` (
   `id` bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` varchar(150) NOT NULL,
@@ -550,9 +561,9 @@ CREATE TABLE `datos_mora_detalle` (
 CREATE TABLE `parametros_economicos` (
   `id_parametro_economico` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(20) NOT NULL,
-  `valor` decimal(10,2) NOT NULL,
+  `valor` varchar(255) NOT NULL,
   `estado` bool NOT NULL,
-  `descripcion` varchar(50) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
   `created_at` timestamp DEFAULT null,
   `updated_at` timestamp DEFAULT null,
   PRIMARY KEY (`id_parametro_economico`, `nombre`)
@@ -616,6 +627,19 @@ CREATE TABLE `costo_semestral` (
   `created_at` timestamp DEFAULT null,
   `updated_at` timestamp DEFAULT null,
   PRIMARY KEY (`id_costo_semestral`, `cod_pensum`, `gestion`)
+);
+
+CREATE TABLE `costo_materia` (
+  `id_costo_materia` bigint NOT NULL AUTO_INCREMENT,
+  `sigla_materia` varchar(255) NOT NULL,
+  `gestion` varchar(30) NOT NULL,
+  `nro_creditos` decimal(10,2) NOT NULL,
+  `nombre_materia` varchar(30) NOT NULL,
+  `monto_materia` decimal(10,2) DEFAULT null,
+  `id_usuario` bigint NOT NULL,
+  `created_at` timestamp DEFAULT null,
+  `updated_at` timestamp DEFAULT null,
+  PRIMARY KEY (`id_costo_materia`, `sigla_materia`, `gestion`)
 );
 
 CREATE TABLE `asignacion_costos` (
@@ -876,8 +900,6 @@ ALTER TABLE `cobro` ADD CONSTRAINT `cobro_factura_id_foreign` FOREIGN KEY (`id_f
 
 ALTER TABLE `costos` ADD CONSTRAINT `costos_descuento_id_foreign` FOREIGN KEY (`id_descuento`) REFERENCES `descuentos` (`id_descuentos`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE `costo_detalle` ADD CONSTRAINT `costo_detalle_descuento_detalle_id_foreign` FOREIGN KEY (`id_descuentoDetalle`) REFERENCES `descuento_detalle` (`id_descuento_detalle`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
 ALTER TABLE `descuentos` ADD CONSTRAINT `descuentos_cod_ceta_foreign` FOREIGN KEY (`cod_ceta`) REFERENCES `estudiantes` (`cod_ceta`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE `descuentos` ADD CONSTRAINT `descuentos_cod_pensum_foreign` FOREIGN KEY (`cod_pensum`) REFERENCES `pensums` (`cod_pensum`) ON DELETE RESTRICT ON UPDATE RESTRICT;
@@ -967,3 +989,9 @@ ALTER TABLE `qr_conceptos_detalle` ADD CONSTRAINT `qr_conceptos_detalle_qr_trans
 ALTER TABLE `qr_estados_log` ADD CONSTRAINT `qr_estados_log_qr_transacciones_id_foreign` FOREIGN KEY (`id_qr_transaccion`) REFERENCES `qr_transacciones` (`id_qr_transaccion`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE `qr_respuestas_banco` ADD CONSTRAINT `qr_respuestas_banco_qr_transacciones_id_foreign` FOREIGN KEY (`id_qr_transaccion`) REFERENCES `qr_transacciones` (`id_qr_transaccion`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `costo_materia` ADD CONSTRAINT `costo_materia_gestion_materia_id_foreign` FOREIGN KEY (`sigla_materia`) REFERENCES `materia` (`sigla_materia`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `costo_materia` ADD CONSTRAINT `costo_materia_gestion_id_foreign` FOREIGN KEY (`gestion`) REFERENCES `gestion` (`gestion`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `pensums` ADD CONSTRAINT `carrera_pensum_id_foreign` FOREIGN KEY (`codigo_carrera`) REFERENCES `carrera` (`codigo_carrera`) ON DELETE RESTRICT ON UPDATE RESTRICT;
