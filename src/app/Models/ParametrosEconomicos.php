@@ -48,7 +48,7 @@ class ParametrosEconomicos extends Model
 	 * @var array<string, string>
 	 */
 	protected $casts = [
-		'valor' => 'decimal:2',
+		'valor' => 'string',
 		'estado' => 'boolean',
 	];
 	

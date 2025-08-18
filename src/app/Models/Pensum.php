@@ -16,9 +16,19 @@ class Pensum extends Model
     
     protected $fillable = [
         'cod_pensum',
+        'codigo_carrera',
         'nombre',
         'descripcion',
+        'cantidad_semestres',
+        'orden',
+        'nivel',
         'estado'
+    ];
+    
+    protected $casts = [
+        'estado' => 'boolean',
+        'orden' => 'integer',
+        'cantidad_semestres' => 'integer'
     ];
     
     // Relaciones
@@ -30,5 +40,10 @@ class Pensum extends Model
     public function costosemestrales()
     {
         return $this->hasMany(CostoSemestral::class, 'cod_pensum', 'cod_pensum');
+    }
+    
+    public function carrera()
+    {
+        return $this->belongsTo(Carrera::class, 'codigo_carrera', 'codigo_carrera');
     }
 }
