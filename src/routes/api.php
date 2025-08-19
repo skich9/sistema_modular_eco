@@ -4,17 +4,18 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\FuncionController;
 use App\Http\Controllers\AsignacionFuncionController;
-use App\Http\Controllers\ProductosController;
-use App\Http\Controllers\PensumController;
-use App\Http\Controllers\InscripcionController;
-use App\Http\Controllers\FormaPagoController;
-use App\Http\Controllers\CuentaBancariaController;
-use App\Http\Controllers\CuotaController;
-use App\Http\Controllers\BecaController;
-use App\Http\Controllers\DescuentoController;
-use App\Http\Controllers\CostoController;
-use App\Http\Controllers\CompromisoController;
-use App\Http\Controllers\ProrrogaController;
+// use App\Http\Controllers\ProductosController; // Comentado - no existe
+// use App\Http\Controllers\PensumController; // Comentado - no existe
+// Comentado - controladores no existen
+// use App\Http\Controllers\InscripcionController;
+// use App\Http\Controllers\FormaPagoController;
+// use App\Http\Controllers\CuentaBancariaController;
+// use App\Http\Controllers\CuotaController;
+// use App\Http\Controllers\BecaController;
+// use App\Http\Controllers\DescuentoController;
+// use App\Http\Controllers\CostoController;
+// use App\Http\Controllers\CompromisoController;
+// use App\Http\Controllers\ProrrogaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,55 +50,55 @@ Route::get('asignaciones/activas', [AsignacionFuncionController::class, 'asignac
 
 // ========== RUTAS DEL SISTEMA ACADÉMICO/FINANCIERO ==========
 
-// Mantener las rutas existentes del sistema
-Route::apiResource('pensums', PensumController::class);
-Route::apiResource('inscripciones', InscripcionController::class);
-Route::apiResource('formas_pago', FormaPagoController::class);
-Route::apiResource('cuentas_bancarias', CuentaBancariaController::class);
-Route::apiResource('cuotas', CuotaController::class);
-Route::apiResource('becas', BecaController::class);
-Route::apiResource('descuentos', DescuentoController::class);
-Route::apiResource('costos', CostoController::class);
-Route::apiResource('compromisos', CompromisoController::class);
-Route::apiResource('prorrogas', ProrrogaController::class);
+// Comentado - controladores no existen
+// Route::apiResource('pensums', PensumController::class);
+// Route::apiResource('inscripciones', InscripcionController::class);
+// Route::apiResource('formas_pago', FormaPagoController::class);
+// Route::apiResource('cuentas_bancarias', CuentaBancariaController::class);
+// Route::apiResource('cuotas', CuotaController::class);
+// Route::apiResource('becas', BecaController::class);
+// Route::apiResource('descuentos', DescuentoController::class);
+// Route::apiResource('costos', CostoController::class);
+// Route::apiResource('compromisos', CompromisoController::class);
+// Route::apiResource('prorrogas', ProrrogaController::class);
 
-// Productos - Rutas personalizadas
-Route::get('/productos', [ProductosController::class, 'index']);
-Route::get('/productos/{id}', [ProductosController::class, 'show']);
-Route::post('/productos', [ProductosController::class, 'store']);
-Route::put('/productos/{id}', [ProductosController::class, 'update']);
-Route::delete('/productos/{id}', [ProductosController::class, 'destroy']);
+// Comentado - ProductosController no existe
+// Route::get('/productos', [ProductosController::class, 'index']);
+// Route::get('/productos/{id}', [ProductosController::class, 'show']);
+// Route::post('/productos', [ProductosController::class, 'store']);
+// Route::put('/productos/{id}', [ProductosController::class, 'update']);
+// Route::delete('/productos/{id}', [ProductosController::class, 'destroy']);
 
 // ========== RUTAS PARA PARÁMETROS DEL SISTEMA ==========
 
-// Importar controladores de parámetros del sistema
-use App\Http\Controllers\Api\MateriaController;
-use App\Http\Controllers\Api\ParametrosEconomicosController;
-use App\Http\Controllers\Api\ItemsCobroController;
+// Comentado - controladores no existen en esta ubicación
+// use App\Http\Controllers\Api\MateriaController;
+// use App\Http\Controllers\Api\ParametrosEconomicosController;
+// use App\Http\Controllers\Api\ItemsCobroController;
 
-// Rutas para materias
-Route::prefix('parametros-sistema')->group(function () {
-    // Materias
-    Route::get('/materias', [MateriaController::class, 'index']);
-    Route::post('/materias', [MateriaController::class, 'store']);
-    Route::get('/materias/{sigla}/{pensum}', [MateriaController::class, 'show']);
-    Route::put('/materias/{sigla}/{pensum}', [MateriaController::class, 'update']);
-    Route::delete('/materias/{sigla}/{pensum}', [MateriaController::class, 'destroy']);
-    Route::put('/materias/{sigla}/{pensum}/toggle-status', [MateriaController::class, 'toggleStatus']);
-    
-    // Parámetros económicos
-    Route::get('/parametros-economicos', [ParametrosEconomicosController::class, 'index']);
-    Route::post('/parametros-economicos', [ParametrosEconomicosController::class, 'store']);
-    Route::get('/parametros-economicos/{id}', [ParametrosEconomicosController::class, 'show']);
-    Route::put('/parametros-economicos/{id}', [ParametrosEconomicosController::class, 'update']);
-    Route::delete('/parametros-economicos/{id}', [ParametrosEconomicosController::class, 'destroy']);
-    Route::put('/parametros-economicos/{id}/toggle-status', [ParametrosEconomicosController::class, 'toggleStatus']);
-    
-    // Items de cobro
-    Route::get('/items-cobro', [ItemsCobroController::class, 'index']);
-    Route::post('/items-cobro', [ItemsCobroController::class, 'store']);
-    Route::get('/items-cobro/{id}', [ItemsCobroController::class, 'show']);
-    Route::put('/items-cobro/{id}', [ItemsCobroController::class, 'update']);
-    Route::delete('/items-cobro/{id}', [ItemsCobroController::class, 'destroy']);
-    Route::put('/items-cobro/{id}/toggle-status', [ItemsCobroController::class, 'toggleStatus']);
-});
+// Comentado - estas rutas están duplicadas en web.php y causan conflictos
+// Route::prefix('parametros-sistema')->group(function () {
+//     // Materias
+//     Route::get('/materias', [MateriaController::class, 'index']);
+//     Route::post('/materias', [MateriaController::class, 'store']);
+//     Route::get('/materias/{sigla}/{pensum}', [MateriaController::class, 'show']);
+//     Route::put('/materias/{sigla}/{pensum}', [MateriaController::class, 'update']);
+//     Route::delete('/materias/{sigla}/{pensum}', [MateriaController::class, 'destroy']);
+//     Route::put('/materias/{sigla}/{pensum}/toggle-status', [MateriaController::class, 'toggleStatus']);
+//     
+//     // Parámetros económicos
+//     Route::get('/parametros-economicos', [ParametrosEconomicosController::class, 'index']);
+//     Route::post('/parametros-economicos', [ParametrosEconomicosController::class, 'store']);
+//     Route::get('/parametros-economicos/{id}', [ParametrosEconomicosController::class, 'show']);
+//     Route::put('/parametros-economicos/{id}', [ParametrosEconomicosController::class, 'update']);
+//     Route::delete('/parametros-economicos/{id}', [ParametrosEconomicosController::class, 'destroy']);
+//     Route::put('/parametros-economicos/{id}/toggle-status', [ParametrosEconomicosController::class, 'toggleStatus']);
+//     
+//     // Items de cobro
+//     Route::get('/items-cobro', [ItemsCobroController::class, 'index']);
+//     Route::post('/items-cobro', [ItemsCobroController::class, 'store']);
+//     Route::get('/items-cobro/{id}', [ItemsCobroController::class, 'show']);
+//     Route::put('/items-cobro/{id}', [ItemsCobroController::class, 'update']);
+//     Route::delete('/items-cobro/{id}', [ItemsCobroController::class, 'destroy']);
+//     Route::put('/items-cobro/{id}/toggle-status', [ItemsCobroController::class, 'toggleStatus']);
+// });

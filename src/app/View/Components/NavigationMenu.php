@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Carrera;
 
 class NavigationMenu extends Component
 {
@@ -57,21 +58,8 @@ class NavigationMenu extends Component
             ],
             [
                 'name' => 'Academico',
-                'icon' => 'fas fa-cog',
-                'submenu' => [
-                    [
-                        'name' => 'Electronica',
-                        'route' => 'usuarios.index',
-                        'icon' => 'fa-users',
-                        'roles' => ['Administrador'],
-                    ],
-                    [
-                        'name' => 'Mecanica',
-                        'route' => 'usuarios.index',
-                        'icon' => 'fa-users',
-                        'roles' => ['Administrador'],
-                    ],
-                ],
+                'icon' => 'fas fa-graduation-cap',
+                'submenu' => $this->getCarrerasSubmenu(),
                 'roles' => ['Administrador', 'Secretaria'],
             ],
             // Añadir más opciones de menú aquí...
@@ -81,6 +69,53 @@ class NavigationMenu extends Component
         return array_filter($allItems, function ($item) use ($rol) {
             return in_array($rol, $item['roles']);
         });
+    }
+
+    /**
+     * Obtiene las carreras desde la base de datos para el submenú Académico
+     *
+     * @return array
+     */
+    private function getCarrerasSubmenu()
+    {
+        try {
+            // Obtener todas las carreras activas
+            $carreras = Carrera::where('estado', true)->get();
+            
+            $submenu = [];
+            
+            foreach ($carreras as $carrera) {
+                $submenu[] = [
+                    'name' => $carrera->nombre,
+                    'route' => 'carrera.show',
+                    'icon' => 'fa-book',
+                    'roles' => ['Administrador', 'Secretaria'],
+                    'params' => ['codigo' => $carrera->codigo_carrera]
+                ];
+            }
+            
+            // Si no hay carreras, agregar un elemento vacío
+            if (empty($submenu)) {
+                $submenu[] = [
+                    'name' => 'No hay carreras disponibles',
+                    'route' => 'dashboard',
+                    'icon' => 'fa-exclamation-circle',
+                    'roles' => ['Administrador', 'Secretaria']
+                ];
+            }
+            
+            return $submenu;
+        } catch (\Exception $e) {
+            // En caso de error, retornar un submenu vacío
+            return [
+                [
+                    'name' => 'Error al cargar carreras',
+                    'route' => 'dashboard',
+                    'icon' => 'fa-exclamation-triangle',
+                    'roles' => ['Administrador', 'Secretaria']
+                ]
+            ];
+        }
     }
 
     public function render()

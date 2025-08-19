@@ -59,7 +59,7 @@
 					
 					<div id="configDropdown{{ $loop->index }}" class="hidden nav-submenu">
 						@foreach ($item['submenu'] as $subitem)
-							<a href="{{ route($subitem['route']) }}" class="nav-submenu-item {{ request()->routeIs($subitem['route']) ? 'active' : '' }}">
+							<a href="{{ isset($subitem['params']) ? route($subitem['route'], $subitem['params']) : route($subitem['route']) }}" class="nav-submenu-item {{ request()->routeIs($subitem['route']) ? 'active' : '' }}">
 								<i class="fas {{ $subitem['icon'] }} mr-2"></i>{{ $subitem['name'] }}
 							</a>
 						@endforeach

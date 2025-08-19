@@ -226,10 +226,18 @@ class ParametrosSistemaController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'nombre_servicio' => 'required|string',
-                'codigo_producto_interno' => 'required|string',
-                'costo' => 'required|numeric',
-                'descripcion' => 'nullable|string',
+                'nombre_servicio' => 'required|string|max:255',
+                'codigo_producto_interno' => 'required|string|max:50',
+                'codigo_producto_impuesto' => 'nullable|string|max:20',
+                'unidad_medida' => 'required|integer|min:1',
+                'nro_creditos' => 'required|numeric|min:0',
+                'costo' => 'nullable|numeric|min:0',
+                'facturado' => 'required|integer|in:0,1',
+                'actividad_economica' => 'required|string|max:50',
+                'id_parametro_economico' => 'required|integer|exists:parametros_economicos,id_parametro_economico',
+                'tipo_item' => 'required|string|max:20',
+                'descripcion' => 'nullable|string|max:500',
+                'estado' => 'required|integer|in:0,1',
             ]);
             
             if ($validator->fails()) {

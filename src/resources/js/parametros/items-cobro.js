@@ -2,7 +2,7 @@
  * Módulo para manejar los items de cobro
  */
 const ItemsCobro = {
-    apiUrl: '/api/parametros-sistema/items-cobro',
+    apiUrl: '/api/items-cobro',
     
     init: function() {
         console.log('Inicializando ItemsCobro');
@@ -37,7 +37,15 @@ const ItemsCobro = {
     loadItems: function() {
         console.log('Cargando items de cobro');
         
-        fetch(this.apiUrl)
+        fetch(this.apiUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            credentials: 'same-origin'
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error al cargar items de cobro');
@@ -59,7 +67,15 @@ const ItemsCobro = {
     },
     
     loadParametrosEconomicos: function() {
-        fetch('/api/parametros-sistema/parametros-economicos')
+        fetch('/api/parametros-economicos', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            credentials: 'same-origin'
+        })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -205,9 +221,11 @@ const ItemsCobro = {
         fetch(url, {
             method: method,
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
+            credentials: 'same-origin',
             body: JSON.stringify(item)
         })
         .then(response => {

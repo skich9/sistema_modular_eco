@@ -6,6 +6,7 @@ use App\Http\Controllers\UsuarioWebController;
 use App\Http\Controllers\RolWebController;
 use App\Http\Controllers\FuncionWebController;
 use App\Http\Controllers\ParametrosSistemaController;
+use App\Http\Controllers\CarreraController;
 
 // ========== RUTAS DE AUTENTICACIÓN ==========
 
@@ -49,7 +50,7 @@ Route::middleware('auth.custom')->group(function () {
     Route::get('/api/parametros-economicos/{id}', [ParametrosSistemaController::class, 'showParametroEconomico'])->name('api.parametros_economicos.show');
     Route::put('/api/parametros-economicos/{id}', [ParametrosSistemaController::class, 'updateParametroEconomico'])->name('api.parametros_economicos.update');
     Route::delete('/api/parametros-economicos/{id}', [ParametrosSistemaController::class, 'destroyParametroEconomico'])->name('api.parametros_economicos.destroy');
-    Route::post('/api/parametros-economicos/{id}/toggle-status', [ParametrosSistemaController::class, 'toggleStatusParametroEconomico'])->name('api.parametros_economicos.toggle-status');
+    Route::put('/api/parametros-economicos/{id}/toggle-status', [ParametrosSistemaController::class, 'toggleStatusParametroEconomico'])->name('api.parametros_economicos.toggle-status');
     
     // API para items de cobro
     Route::get('/api/items-cobro', [ParametrosSistemaController::class, 'getItemsCobro'])->name('api.items_cobro');
@@ -57,7 +58,7 @@ Route::middleware('auth.custom')->group(function () {
     Route::get('/api/items-cobro/{id}', [ParametrosSistemaController::class, 'showItemCobro'])->name('api.items_cobro.show');
     Route::put('/api/items-cobro/{id}', [ParametrosSistemaController::class, 'updateItemCobro'])->name('api.items_cobro.update');
     Route::delete('/api/items-cobro/{id}', [ParametrosSistemaController::class, 'destroyItemCobro'])->name('api.items_cobro.destroy');
-    Route::post('/api/items-cobro/{id}/toggle-status', [ParametrosSistemaController::class, 'toggleStatusItemCobro'])->name('api.items_cobro.toggle-status');
+    Route::put('/api/items-cobro/{id}/toggle-status', [ParametrosSistemaController::class, 'toggleStatusItemCobro'])->name('api.items_cobro.toggle-status');
     
     // API para materias
     Route::get('/api/materias', [ParametrosSistemaController::class, 'getMaterias'])->name('api.materias');
@@ -65,7 +66,20 @@ Route::middleware('auth.custom')->group(function () {
     Route::get('/api/materias/{sigla}/{codPensum}', [ParametrosSistemaController::class, 'showMateria'])->name('api.materias.show');
     Route::put('/api/materias/{sigla}/{codPensum}', [ParametrosSistemaController::class, 'updateMateria'])->name('api.materias.update');
     Route::delete('/api/materias/{sigla}/{codPensum}', [ParametrosSistemaController::class, 'destroyMateria'])->name('api.materias.destroy');
-    Route::post('/api/materias/{sigla}/{codPensum}/toggle-status', [ParametrosSistemaController::class, 'toggleStatusMateria'])->name('api.materias.toggle-status');
+    Route::put('/api/materias/{sigla}/{codPensum}/toggle-status', [ParametrosSistemaController::class, 'toggleStatusMateria'])->name('api.materias.toggle-status');
+    
+    // Rutas para carreras académicas
+    Route::get('/carrera/{codigo}', [CarreraController::class, 'show'])->name('carrera.show');
+    
+    // API para pensums de carrera
+    Route::get('/api/carreras/{codigoCarrera}/pensums', [CarreraController::class, 'getPensums'])->name('api.carrera.pensums');
+    
+    // API para materias de pensum
+    Route::get('/api/pensums/{codPensum}/materias', [CarreraController::class, 'getMaterias'])->name('api.pensum.materias');
+    Route::post('/api/pensums/materias', [CarreraController::class, 'storeMateria'])->name('api.pensum.materias.store');
+    Route::put('/api/pensums/materias/{sigla}/{codPensum}', [CarreraController::class, 'updateMateria'])->name('api.pensum.materias.update');
+    Route::delete('/api/pensums/materias/{sigla}/{codPensum}', [CarreraController::class, 'destroyMateria'])->name('api.pensum.materias.destroy');
+    Route::post('/api/pensums/materias/{sigla}/{codPensum}/toggle-status', [CarreraController::class, 'toggleStatusMateria'])->name('api.pensum.materias.toggle-status');
 });
    
 

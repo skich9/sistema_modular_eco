@@ -5,7 +5,7 @@
  * Módulo para manejar los parámetros económicos (versión con manejo de eventos como Materias)
  */
 const ParametrosEconomicos = {
-    apiUrl: '/api/parametros-sistema/parametros-economicos',
+    apiUrl: '/api/parametros-economicos',
     
     init: function() {
         console.log('Inicializando ParametrosEconomicos');
@@ -39,7 +39,15 @@ const ParametrosEconomicos = {
     loadParametros: function() {
         console.log('Cargando parámetros económicos');
         
-        fetch(this.apiUrl)
+        fetch(this.apiUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            credentials: 'same-origin'
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error al cargar parámetros económicos');

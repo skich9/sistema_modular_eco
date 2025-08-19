@@ -383,7 +383,6 @@
 </div>
 
 @push('scripts')
-<!-- Scripts compilados por Vite -->
 @vite([
     'resources/js/parametros/tabs.js',
     'resources/js/parametros/parametros-economicos.js',

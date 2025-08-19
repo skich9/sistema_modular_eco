@@ -2,7 +2,7 @@
  * Módulo para manejar las materias
  */
 const Materias = {
-    apiUrl: '/api/parametros-sistema/materias',
+    apiUrl: '/api/materias',
     
     init: function() {
         console.log('Inicializando Materias');
@@ -36,7 +36,15 @@ const Materias = {
     },
     
     loadParametrosEconomicos: function() {
-        fetch('/api/parametros-sistema/parametros-economicos')
+        fetch('/api/parametros-economicos', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            credentials: 'same-origin'
+        })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -59,7 +67,15 @@ const Materias = {
     loadMaterias: function() {
         console.log('Cargando materias');
         
-        fetch(this.apiUrl)
+        fetch(this.apiUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            credentials: 'same-origin'
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error al cargar materias');

@@ -17,7 +17,9 @@ export default defineConfig({
                 'resources/js/parametros/parametros-economicos.js',
                 'resources/js/parametros/items-cobro.js',
                 'resources/js/parametros/materias.js',
-                'resources/js/parametros/index.js'
+                'resources/js/parametros/index.js',
+                // Scripts para carreras
+                'resources/js/academico/carrera/show.js'
             ],
             refresh: true,
         }),
